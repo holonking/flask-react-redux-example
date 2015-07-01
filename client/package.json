@@ -1,0 +1,37 @@
+{
+  "name": "django-react-redux-example",
+  "version": "0.0.0",
+  "description": "An example webapp using django/django-rest-framework as backend and react/redux/react-router as frontend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kawing-chiu/django-react-redux-example.git"
+  },
+  "author": "Zhao Jiarong <kawing.chiu.sysu@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/kawing-chiu/django-react-redux-example/issues"
+  },
+  "homepage": "https://github.com/kawing-chiu/django-react-redux-example#readme",
+  "dependencies": {
+    "react": "^0.13.3",
+    "redux": "^0.12.0"
+  },
+  "devDependencies": {
+    "babel-core": "^5.6.4",
+    "babel-loader": "^5.1.4",
+    "css-loader": "^0.15.1",
+    "file-loader": "^0.8.4",
+    "gulp": "^3.9.0",
+    "node-libs-browser": "^0.5.2",
+    "react-hot-loader": "^1.2.7",
+    "style-loader": "^0.12.3",
+    "url-loader": "^0.5.6",
+    "webpack": "^1.9.11",
+    "webpack-dev-server": "^1.9.0"
+  }
+}
