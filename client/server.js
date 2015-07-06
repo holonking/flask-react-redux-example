@@ -11,6 +11,7 @@ var server = new WebpackDevServer(webpack(config), {
 });
 
 var port = config.devServerPort;
-server.listen(port, 'localhost', function () {
-  console.log('Listening at localhost:' + port);
+var host = config.devServerHost;
+server.listen(port, host, function () {
+  console.log('Listening at ' + host + ':' + port);
 });

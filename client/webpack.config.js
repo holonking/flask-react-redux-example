@@ -3,12 +3,15 @@ var webpack = require('webpack');
 var CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 
 devServerPort = 3000;
+devServerHost = 'localhost';
+
 module.exports = {
   devtool: 'eval-source-map',
   devServerPort: devServerPort,
+  devServerHost: devServerHost,
   entry: {
     app: [
-      'webpack-dev-server/client?http://localhost:' + devServerPort,
+      'webpack-dev-server/client?http://' + devServerHost + ':' + devServerPort,
       'webpack/hot/only-dev-server',
       './src/js/index'
     ],
