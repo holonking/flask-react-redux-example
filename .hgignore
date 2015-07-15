@@ -3,3 +3,4 @@ npm-debug\.log
 __pycache__/
 \.swp$
 \.pyc$
+build/
