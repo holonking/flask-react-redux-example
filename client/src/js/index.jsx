@@ -10,8 +10,9 @@ if (__DEV__) {
   console.warn('FRONTEND_DEBUG:', __DEV__)
 }
 
+var API = '/api/hello';
 
 ReactDOM.render(
-  <Hello />,
+  <Hello source={API} />,
   document.getElementById('root')
 );

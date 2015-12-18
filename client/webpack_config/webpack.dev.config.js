@@ -10,12 +10,14 @@ var globalVars = {
 };
 
 var devServerPort = 3000;
+var backendServerPort = 3001;
 var devServerHost = 'localhost';
 
 var devConfig = {
   devtool: 'eval-source-map',
 
   devServerPort: devServerPort,
+  backendServerPort: backendServerPort,
   devServerHost: devServerHost,
 
   entry: {

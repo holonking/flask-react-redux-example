@@ -43,19 +43,21 @@ gulp.task('build', ['build-client', 'copy-index']);
 
 gulp.task('dev', function() {
   var port = devConfig.devServerPort;
+  var backendPort = devConfig.backendServerPort;
   var host = devConfig.devServerHost;
+
   var server = new WebpackDevServer(webpack(devConfig), {
     contentBase: './src/html',
     publicPath: devConfig.output.publicPath,
     hot: true,
     historyApiFallback: true,
     stats: { colors: true },
-    //proxy: [
-    //  {
-    //    path: /\/api\/(.*)/,
-    //    target: 'http://' + host + ':' + (port + 1),
-    //  }
-    //],
+    proxy: {
+      '/api/*': {
+        target: 'http://' + host + ':' + backendPort,
+        secure: false,
+      },
+    },
   });
   server.listen(port, host, function(err) {
     if (err) {
