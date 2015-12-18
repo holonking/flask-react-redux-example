@@ -5580,6 +5580,11 @@
       "from": "react@0.14.3",
       "resolved": "https://registry.npm.taobao.org/react/download/react-0.14.3.tgz"
     },
+    "react-dom": {
+      "version": "0.14.3",
+      "from": "react-dom@latest",
+      "resolved": "https://registry.npm.taobao.org/react-dom/download/react-dom-0.14.3.tgz"
+    },
     "react-hot-api": {
       "version": "0.4.6",
       "from": "react-hot-api@>=0.4.5 <0.5.0",
