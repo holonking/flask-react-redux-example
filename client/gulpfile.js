@@ -14,9 +14,9 @@ var productionConfig = require('./webpack_config/webpack.production.config.js');
 //});
 
 gulp.task('clean-client', function(cb) {
-  del([
+  return del([
     'build/static/*',
-  ], cb);
+  ]);
 });
    
 gulp.task('copy-index', function() {
@@ -57,7 +57,6 @@ gulp.task('dev', function() {
     //  }
     //],
   });
-
   server.listen(port, host, function(err) {
     if (err) {
       console.log('WebpackDevServer error:', err);

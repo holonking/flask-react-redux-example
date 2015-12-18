@@ -18,6 +18,8 @@ module.exports = {
       'redux',
       'classnames',
       'lodash',
+      'bootstrap/dist/css/bootstrap.css',
+      'babel-polyfill',
     ]
   },
   output: {
@@ -41,7 +43,7 @@ module.exports = {
     loaders: [
       {
         test: /\.css$/,
-        loaders: ExtractTextPlugin.extract('style', 'css')
+        loader: ExtractTextPlugin.extract('style', 'css')
       },
       {
         test: /\.png$|\.jpe?g$/,

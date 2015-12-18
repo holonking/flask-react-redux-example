@@ -1,43 +1,48 @@
 {
-  "name": "django-react-redux-example",
+  "name": "flask-react-redux-example",
   "version": "0.0.0",
-  "description": "An example webapp using django/django-rest-framework as backend and react/redux/react-router as frontend",
-  "main": "server.js",
+  "description": "An example webapp using flask as backend and react/redux/react-router as frontend",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kawing-chiu/django-react-redux-example.git"
+    "url": "git+https://github.com/kawing-chiu/flask-react-redux-example"
   },
-  "author": "Zhao Jiarong <kawing.chiu.sysu@gmail.com>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/kawing-chiu/django-react-redux-example/issues"
+    "url": "https://github.com/kawing-chiu/flask-react-redux-example/issues"
   },
-  "homepage": "https://github.com/kawing-chiu/django-react-redux-example#readme",
+  "homepage": "https://github.com/kawing-chiu/flask-react-redux-example",
   "dependencies": {
-    "classnames": "^2.1.3",
-    "lodash": "^3.10.0",
-    "react": "^0.13.3",
-    "redux": "^0.12.0"
+    "babel-polyfill": "6.3.14",
+    "babel-runtime": "6.3.19",
+    "bootstrap": "^4.0.0-alpha.2",
+    "classnames": "2.2.1",
+    "lodash": "3.10.1",
+    "react": "0.14.3",
+    "redux": "3.0.5"
   },
   "devDependencies": {
-    "babel-core": "^5.6.4",
-    "babel-loader": "^5.1.4",
-    "babel-runtime": "^5.6.18",
+    "babel-core": "6.3.17",
+    "babel-loader": "6.2.0",
+    "babel-plugin-transform-runtime": "6.3.13",
+    "babel-preset-es2015": "6.3.13",
+    "babel-preset-react": "6.3.13",
+    "babel-preset-stage-2": "6.3.13",
     "chunk-manifest-webpack-plugin": "0.0.1",
-    "css-loader": "^0.15.1",
-    "del": "^1.2.0",
-    "extract-text-webpack-plugin": "^0.8.2",
-    "file-loader": "^0.8.4",
-    "gulp": "^3.9.0",
-    "node-libs-browser": "^0.5.2",
-    "react-hot-loader": "^1.2.7",
-    "style-loader": "^0.12.3",
-    "url-loader": "^0.5.6",
-    "webpack": "^1.9.11",
-    "webpack-dev-server": "^1.9.0",
-    "webpack-manifest-plugin": "^0.3.0"
+    "css-loader": "0.23.0",
+    "del": "2.2.0",
+    "extract-text-webpack-plugin": "0.9.1",
+    "file-loader": "0.8.5",
+    "gulp": "3.9.0",
+    "node-libs-browser": "0.5.3",
+    "npm-check-updates": "2.5.4",
+    "react-hot-loader": "1.3.0",
+    "style-loader": "0.13.0",
+    "url-loader": "0.5.7",
+    "webpack": "1.12.9",
+    "webpack-dev-server": "1.14.0",
+    "webpack-manifest-plugin": "0.5.0"
   }
 }

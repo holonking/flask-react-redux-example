@@ -16,6 +16,7 @@ var productionConfig = {
 
   entry: {
     app: [
+      'babel-polyfill',
       './src/js/index',
     ],
   },
@@ -51,7 +52,7 @@ var productionConfig = {
       {
         test: /\.jsx$|\.js$/,
         exclude: /node_modules/,
-        loaders: ['babel?stage=0&optional=runtime']
+        loaders: ['babel']
       }
     ],
   }

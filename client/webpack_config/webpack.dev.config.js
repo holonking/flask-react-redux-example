@@ -22,6 +22,7 @@ var devConfig = {
     app: [
       'webpack-dev-server/client?http://' + devServerHost + ':' + devServerPort,
       'webpack/hot/only-dev-server',
+      'babel-polyfill',
       './src/js/index',
     ],
   },
@@ -42,7 +43,7 @@ var devConfig = {
       {
         test: /\.jsx$|\.js$/,
         exclude: /node_modules/,
-        loaders: ['react-hot', 'babel?stage=0&optional=runtime']
+        loaders: ['react-hot', 'babel']
       }
     ],
   },
