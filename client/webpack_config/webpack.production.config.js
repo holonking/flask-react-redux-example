@@ -16,7 +16,7 @@ var productionConfig = {
 
   entry: {
     app: [
-      'babel-polyfill',
+      //'babel-polyfill',
       './src/js/index',
     ],
   },

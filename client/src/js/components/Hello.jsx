@@ -13,9 +13,14 @@ export default class Hello extends Component {
     fetch(url)
     .then(function(res) {
       if (__DEV__) {
-        console.log('res:', res);
+        console.warn('__DEV__:', 'res:', res);
       }
-      return res.json();
+      if (res.ok) {
+        var data = res.json();
+      } else {
+        throw {msg: 'bad response', stats: res.status};
+      }
+      return data;
     })
     .then(function(data) {
       if (__DEV__) {
@@ -27,7 +32,10 @@ export default class Hello extends Component {
       this.setState({
         text: 'Received: ' + data
       });
-    }.bind(this));
+    }.bind(this))
+    .catch(function(error) {
+      console.error("Sth is wrong:", error)
+    });
   }
 
   render() {

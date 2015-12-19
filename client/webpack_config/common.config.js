@@ -10,16 +10,13 @@ var globalVars = {
 
 module.exports = {
   entry: {
-    //app: [
-    //  './src/js/index'
-    //],
     vendor: [
       'react',
       'redux',
       'classnames',
-      'lodash',
-      'bootstrap/dist/css/bootstrap.css',
-      'babel-polyfill',
+      //'lodash',
+      'bootstrap/dist/css/bootstrap.min.css',
+      //'babel-polyfill',
     ]
   },
   output: {

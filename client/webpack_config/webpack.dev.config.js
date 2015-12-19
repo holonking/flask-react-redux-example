@@ -11,7 +11,7 @@ var globalVars = {
 
 var devServerPort = 3000;
 var backendServerPort = 3001;
-var devServerHost = 'localhost';
+var devServerHost = '0.0.0.0';
 
 var devConfig = {
   devtool: 'eval-source-map',
@@ -24,7 +24,7 @@ var devConfig = {
     app: [
       'webpack-dev-server/client?http://' + devServerHost + ':' + devServerPort,
       'webpack/hot/only-dev-server',
-      'babel-polyfill',
+      //'babel-polyfill',
       './src/js/index',
     ],
   },

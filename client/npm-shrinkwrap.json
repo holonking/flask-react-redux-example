@@ -2072,6 +2072,11 @@
       "from": "lodash.words@>=3.0.0 <4.0.0",
       "resolved": "https://registry.npm.taobao.org/lodash.words/download/lodash.words-3.0.2.tgz"
     },
+    "loglevel": {
+      "version": "1.4.0",
+      "from": "loglevel@latest",
+      "resolved": "https://registry.npm.taobao.org/loglevel/download/loglevel-1.4.0.tgz"
+    },
     "longest": {
       "version": "1.0.1",
       "from": "longest@>=1.0.1 <2.0.0",
