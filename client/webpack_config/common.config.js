@@ -16,6 +16,7 @@ module.exports = {
       'classnames',
       //'lodash',
       'bootstrap/dist/css/bootstrap.min.css',
+      'loglevel',
       //'babel-polyfill',
     ]
   },
@@ -30,7 +31,9 @@ module.exports = {
       name: 'vendor',
       minChunks: Infinity
     }),
-    //new ExtractTextPlugin('[name].css'),
+    //new webpack.ProvidePlugin({
+    //  loglevel: 'loglevel'
+    //})
   ],
 
   resolve: {

@@ -2,13 +2,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import './initialize.js'
 import '../css/styles.css';
 import Hello from './components/Hello.jsx'
 
-
-if (__DEV__) {
-  console.warn('FRONTEND_DEBUG:', __DEV__)
-}
 
 var API = '/api/hello';
 
