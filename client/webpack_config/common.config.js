@@ -1,6 +1,5 @@
 var path = require('path');
 var webpack = require('webpack');
-var CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 
@@ -12,11 +11,13 @@ module.exports = {
   entry: {
     vendor: [
       'react',
+      'react-router',
       'redux',
+      'history',
       'classnames',
-      'react-bootstrap',
-      //'bootstrap/dist/css/bootstrap.min.css',
       'loglevel',
+      //'react-bootstrap',
+      //'bootstrap/dist/css/bootstrap.min.css',
       //'lodash',
       //'babel-polyfill',
     ]
@@ -28,7 +29,7 @@ module.exports = {
 
   plugins: [
     new webpack.DefinePlugin(globalVars),
-    new CommonsChunkPlugin({
+    new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: Infinity
     }),

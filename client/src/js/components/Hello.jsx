@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 var log = logger('Hello');
 // use logger('Hello').setLevel('xxx') in chrome console to control debug level
 
+const API = '/api/hello';
 
 export default class Hello extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ export default class Hello extends Component {
   }
 
   componentDidMount() {
-    var url = this.props.source;
+    var url = API;
     log.info('fetching data...');
     fetch(url)
     .then(function(res) {
