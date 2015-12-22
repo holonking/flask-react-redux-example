@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 
+import Hello from '../components/Hello';
 
-export default class Docs extends Component {
+
+export default class Home extends Component {
   render() {
     return (
       <div>
-        <h1>No docs yet.</h1>
+        {Hello}
       </div>
     );
   }
