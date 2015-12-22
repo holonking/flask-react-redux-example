@@ -14,9 +14,10 @@ module.exports = {
       'react',
       'redux',
       'classnames',
-      //'lodash',
-      'bootstrap/dist/css/bootstrap.min.css',
+      'react-bootstrap',
+      //'bootstrap/dist/css/bootstrap.min.css',
       'loglevel',
+      //'lodash',
       //'babel-polyfill',
     ]
   },

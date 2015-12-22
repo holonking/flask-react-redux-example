@@ -883,11 +883,6 @@
       "from": "bluebird@>=3.0.5 <4.0.0",
       "resolved": "https://registry.npm.taobao.org/bluebird/download/bluebird-3.1.1.tgz"
     },
-    "bootstrap": {
-      "version": "4.0.0-alpha.2",
-      "from": "bootstrap@latest",
-      "resolved": "https://registry.npm.taobao.org/bootstrap/download/bootstrap-4.0.0-alpha.2.tgz"
-    },
     "brace-expansion": {
       "version": "1.1.2",
       "from": "brace-expansion@>=1.0.0 <2.0.0",
@@ -1158,6 +1153,11 @@
       "from": "decamelize@>=1.1.0 <2.0.0",
       "resolved": "https://registry.npm.taobao.org/decamelize/download/decamelize-1.1.1.tgz"
     },
+    "deep-equal": {
+      "version": "1.0.1",
+      "from": "deep-equal@>=1.0.0 <2.0.0",
+      "resolved": "https://registry.npm.taobao.org/deep-equal/download/deep-equal-1.0.1.tgz"
+    },
     "deep-extend": {
       "version": "0.4.0",
       "from": "deep-extend@>=0.4.0 <0.5.0",
@@ -1209,6 +1209,11 @@
           "resolved": "https://registry.npm.taobao.org/minimist/download/minimist-1.2.0.tgz"
         }
       }
+    },
+    "dom-helpers": {
+      "version": "2.4.0",
+      "from": "dom-helpers@>=2.4.0 <3.0.0",
+      "resolved": "https://registry.npm.taobao.org/dom-helpers/download/dom-helpers-2.4.0.tgz"
     },
     "domain-browser": {
       "version": "1.1.7",
@@ -1641,6 +1646,11 @@
       "from": "has-own@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npm.taobao.org/has-own/download/has-own-1.0.0.tgz"
     },
+    "history": {
+      "version": "1.13.1",
+      "from": "history@>=1.13.0 <1.14.0",
+      "resolved": "https://registry.npm.taobao.org/history/download/history-1.13.1.tgz"
+    },
     "home-or-tmp": {
       "version": "1.0.0",
       "from": "home-or-tmp@>=1.0.0 <2.0.0",
@@ -1932,6 +1942,11 @@
       "from": "jstransform@>=10.0.1 <11.0.0",
       "resolved": "https://registry.npm.taobao.org/jstransform/download/jstransform-10.1.0.tgz"
     },
+    "keycode": {
+      "version": "2.1.0",
+      "from": "keycode@>=2.1.0 <3.0.0",
+      "resolved": "https://registry.npm.taobao.org/keycode/download/keycode-2.1.0.tgz"
+    },
     "kind-of": {
       "version": "2.0.1",
       "from": "kind-of@>=2.0.0 <3.0.0",
@@ -1974,8 +1989,13 @@
     },
     "lodash": {
       "version": "3.10.1",
-      "from": "lodash@3.10.1",
+      "from": "lodash@latest",
       "resolved": "https://registry.npm.taobao.org/lodash/download/lodash-3.10.1.tgz"
+    },
+    "lodash-compat": {
+      "version": "3.10.1",
+      "from": "lodash-compat@>=3.10.1 <4.0.0",
+      "resolved": "https://registry.npm.taobao.org/lodash-compat/download/lodash-compat-3.10.1.tgz"
     },
     "lodash._basecopy": {
       "version": "3.0.1",
@@ -5585,6 +5605,18 @@
       "from": "react@0.14.3",
       "resolved": "https://registry.npm.taobao.org/react/download/react-0.14.3.tgz"
     },
+    "react-bootstrap": {
+      "version": "0.28.1",
+      "from": "react-bootstrap@latest",
+      "resolved": "https://registry.npm.taobao.org/react-bootstrap/download/react-bootstrap-0.28.1.tgz",
+      "dependencies": {
+        "babel-runtime": {
+          "version": "5.8.34",
+          "from": "babel-runtime@>=5.8.25 <6.0.0",
+          "resolved": "https://registry.npm.taobao.org/babel-runtime/download/babel-runtime-5.8.34.tgz"
+        }
+      }
+    },
     "react-dom": {
       "version": "0.14.3",
       "from": "react-dom@latest",
@@ -5606,6 +5638,28 @@
           "resolved": "https://registry.npm.taobao.org/source-map/download/source-map-0.4.4.tgz"
         }
       }
+    },
+    "react-overlays": {
+      "version": "0.5.4",
+      "from": "react-overlays@>=0.5.2 <0.6.0",
+      "resolved": "https://registry.npm.taobao.org/react-overlays/download/react-overlays-0.5.4.tgz",
+      "dependencies": {
+        "react-prop-types": {
+          "version": "0.2.2",
+          "from": "react-prop-types@>=0.2.1 <0.3.0",
+          "resolved": "https://registry.npm.taobao.org/react-prop-types/download/react-prop-types-0.2.2.tgz"
+        }
+      }
+    },
+    "react-prop-types": {
+      "version": "0.3.0",
+      "from": "react-prop-types@>=0.3.0 <0.4.0",
+      "resolved": "https://registry.npm.taobao.org/react-prop-types/download/react-prop-types-0.3.0.tgz"
+    },
+    "react-router": {
+      "version": "1.0.2",
+      "from": "react-router@latest",
+      "resolved": "https://registry.npm.taobao.org/react-router/download/react-router-1.0.2.tgz"
     },
     "read-all-stream": {
       "version": "3.0.1",
@@ -6138,6 +6192,11 @@
       "from": "uglify-to-browserify@>=1.0.0 <1.1.0",
       "resolved": "https://registry.npm.taobao.org/uglify-to-browserify/download/uglify-to-browserify-1.0.2.tgz"
     },
+    "uncontrollable": {
+      "version": "3.2.1",
+      "from": "uncontrollable@>=3.1.3 <4.0.0",
+      "resolved": "https://registry.npm.taobao.org/uncontrollable/download/uncontrollable-3.2.1.tgz"
+    },
     "uniq": {
       "version": "1.0.1",
       "from": "uniq@>=1.0.1 <2.0.0",
@@ -6283,6 +6342,11 @@
       "version": "0.0.4",
       "from": "vm-browserify@0.0.4",
       "resolved": "https://registry.npm.taobao.org/vm-browserify/download/vm-browserify-0.0.4.tgz"
+    },
+    "warning": {
+      "version": "2.1.0",
+      "from": "warning@>=2.1.0 <3.0.0",
+      "resolved": "https://registry.npm.taobao.org/warning/download/warning-2.1.0.tgz"
     },
     "watchpack": {
       "version": "0.2.9",
