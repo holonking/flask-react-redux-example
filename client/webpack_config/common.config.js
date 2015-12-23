@@ -17,7 +17,7 @@ module.exports = {
       'classnames',
       'loglevel',
       //'react-bootstrap',
-      //'bootstrap/dist/css/bootstrap.min.css',
+      'bootstrap/dist/css/bootstrap.min.css',
       //'lodash',
       //'babel-polyfill',
     ]
@@ -53,11 +53,17 @@ module.exports = {
         loader: 'url'
       },
       {
+        test: /\.svg$/,
+        // use data-url for svg may result in a larger file size due to the 
+        // base64 conversion, anyway, we still use it here
+        loader: 'url?limit=10000'
+      },
+      {
         test: /\.woff2$/,
         loader: 'url?limit=50000'    
       },
       {
-        test: /\.woff$|\.ttf$|\.eot$|\.svg$/,
+        test: /\.woff$|\.ttf$|\.eot$/,
         loader: 'file'
       },
     ]

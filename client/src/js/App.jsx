@@ -1,24 +1,49 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import { Link } from 'react-router';
+import { LinkContainer } from 'react-router-bootstrap';
+import { Grid, Row, Navbar, Nav, NavItem } from 'react-bootstrap';
 
+import logo from '../img/logo.svg';
+
+
+var GitHubPage = 'https://github.com/kawing-chiu/flask-react-redux-example'
+
+class Logo extends Component {
+  render() {
+    return (
+      <div className="App--TopNavBar-Logo">
+        <img src={logo} width="36" height="36" />
+        Flask-react-redux-example
+      </div>
+    );
+  }
+}
 
 class TopNavbar extends Component {
   render() {
     return (
       <Navbar inverse>
-        <Navbar.Header>
-          <Navbar.Brand>
-            <a href="#">React</a>
-          </Navbar.Brand>
-        </Navbar.Header>
-        <Navbar.Collapse>
-          <Nav>
-            <NavItem eventKey={1} href="#">Docs</NavItem>
-          </Nav>
-          <Nav pullRight>
-            <NavItem eventKey={1} href="#">GitHub</NavItem>
-          </Nav>
-        </Navbar.Collapse>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <Link to="/">
+                <Logo />
+              </Link>
+            </Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+          <Navbar.Collapse>
+            <Nav>
+              <LinkContainer to="/docs">
+                <NavItem>Docs</NavItem>
+              </LinkContainer>
+              <LinkContainer to="/d3">
+                <NavItem>D3</NavItem>
+              </LinkContainer>
+            </Nav>
+            <Nav pullRight>
+              <NavItem href={GitHubPage}>GitHub</NavItem>
+            </Nav>
+          </Navbar.Collapse>
       </Navbar>
     );
   }
@@ -32,7 +57,9 @@ export default class App extends Component {
     return (
       <div>
         <TopNavbar />
-        {this.props.children}
+        <Grid>
+          {this.props.children}
+        </Grid>
       </div>
     );
   }

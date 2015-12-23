@@ -1,0 +1,18 @@
+
+body {
+  font-family: proxima-nova,"Helvetica Neue",Helvetica,Roboto,Arial,sans-serif;
+}
+
+.navbar .navbar-brand {
+  padding-top: 8px;
+}
+
+.navbar .navbar-nav {
+  font-size: 1.3em;
+}
+
+.App--TopNavBar-Logo {
+  color: #00d8ff;
+  font-size: 1.3em;
+}
+
