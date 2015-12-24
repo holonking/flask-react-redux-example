@@ -1132,6 +1132,11 @@
       "from": "csso@>=1.4.2 <1.5.0",
       "resolved": "https://registry.npm.taobao.org/csso/download/csso-1.4.4.tgz"
     },
+    "d3": {
+      "version": "3.5.12",
+      "from": "d3@latest",
+      "resolved": "https://registry.npm.taobao.org/d3/download/d3-3.5.12.tgz"
+    },
     "date-now": {
       "version": "0.1.4",
       "from": "date-now@>=0.1.4 <0.2.0",
@@ -2002,10 +2007,50 @@
       "from": "lodash-compat@>=3.10.1 <4.0.0",
       "resolved": "https://registry.npm.taobao.org/lodash-compat/download/lodash-compat-3.10.1.tgz"
     },
+    "lodash._arraycopy": {
+      "version": "3.0.0",
+      "from": "lodash._arraycopy@>=3.0.0 <4.0.0",
+      "resolved": "https://registry.npm.taobao.org/lodash._arraycopy/download/lodash._arraycopy-3.0.0.tgz"
+    },
+    "lodash._arrayeach": {
+      "version": "3.0.0",
+      "from": "lodash._arrayeach@>=3.0.0 <4.0.0",
+      "resolved": "https://registry.npm.taobao.org/lodash._arrayeach/download/lodash._arrayeach-3.0.0.tgz"
+    },
+    "lodash._baseassign": {
+      "version": "3.2.0",
+      "from": "lodash._baseassign@>=3.0.0 <4.0.0",
+      "resolved": "https://registry.npm.taobao.org/lodash._baseassign/download/lodash._baseassign-3.2.0.tgz"
+    },
+    "lodash._basecallback": {
+      "version": "3.3.1",
+      "from": "lodash._basecallback@>=3.0.0 <4.0.0",
+      "resolved": "https://registry.npm.taobao.org/lodash._basecallback/download/lodash._basecallback-3.3.1.tgz"
+    },
+    "lodash._baseclone": {
+      "version": "3.3.0",
+      "from": "lodash._baseclone@>=3.0.0 <4.0.0",
+      "resolved": "https://registry.npm.taobao.org/lodash._baseclone/download/lodash._baseclone-3.3.0.tgz"
+    },
     "lodash._basecopy": {
       "version": "3.0.1",
       "from": "lodash._basecopy@>=3.0.0 <4.0.0",
       "resolved": "https://registry.npm.taobao.org/lodash._basecopy/download/lodash._basecopy-3.0.1.tgz"
+    },
+    "lodash._baseeach": {
+      "version": "3.0.4",
+      "from": "lodash._baseeach@>=3.0.0 <4.0.0",
+      "resolved": "https://registry.npm.taobao.org/lodash._baseeach/download/lodash._baseeach-3.0.4.tgz"
+    },
+    "lodash._basefor": {
+      "version": "3.0.2",
+      "from": "lodash._basefor@>=3.0.0 <4.0.0",
+      "resolved": "https://registry.npm.taobao.org/lodash._basefor/download/lodash._basefor-3.0.2.tgz"
+    },
+    "lodash._baseisequal": {
+      "version": "3.0.7",
+      "from": "lodash._baseisequal@>=3.0.0 <4.0.0",
+      "resolved": "https://registry.npm.taobao.org/lodash._baseisequal/download/lodash._baseisequal-3.0.7.tgz"
     },
     "lodash._basetostring": {
       "version": "3.0.1",
@@ -2016,6 +2061,16 @@
       "version": "3.0.0",
       "from": "lodash._basevalues@>=3.0.0 <4.0.0",
       "resolved": "https://registry.npm.taobao.org/lodash._basevalues/download/lodash._basevalues-3.0.0.tgz"
+    },
+    "lodash._bindcallback": {
+      "version": "3.0.1",
+      "from": "lodash._bindcallback@>=3.0.0 <4.0.0",
+      "resolved": "https://registry.npm.taobao.org/lodash._bindcallback/download/lodash._bindcallback-3.0.1.tgz"
+    },
+    "lodash._createassigner": {
+      "version": "3.1.1",
+      "from": "lodash._createassigner@>=3.0.0 <4.0.0",
+      "resolved": "https://registry.npm.taobao.org/lodash._createassigner/download/lodash._createassigner-3.1.1.tgz"
     },
     "lodash._createcompounder": {
       "version": "3.0.0",
@@ -2047,10 +2102,20 @@
       "from": "lodash._reinterpolate@>=3.0.0 <4.0.0",
       "resolved": "https://registry.npm.taobao.org/lodash._reinterpolate/download/lodash._reinterpolate-3.0.0.tgz"
     },
+    "lodash.assign": {
+      "version": "3.2.0",
+      "from": "lodash.assign@>=3.2.0 <4.0.0",
+      "resolved": "https://registry.npm.taobao.org/lodash.assign/download/lodash.assign-3.2.0.tgz"
+    },
     "lodash.camelcase": {
       "version": "3.0.1",
       "from": "lodash.camelcase@>=3.0.1 <4.0.0",
       "resolved": "https://registry.npm.taobao.org/lodash.camelcase/download/lodash.camelcase-3.0.1.tgz"
+    },
+    "lodash.clone": {
+      "version": "3.0.3",
+      "from": "lodash.clone@>=3.0.3 <4.0.0",
+      "resolved": "https://registry.npm.taobao.org/lodash.clone/download/lodash.clone-3.0.3.tgz"
     },
     "lodash.deburr": {
       "version": "3.0.2",
@@ -2072,15 +2137,35 @@
       "from": "lodash.isarray@>=3.0.0 <4.0.0",
       "resolved": "https://registry.npm.taobao.org/lodash.isarray/download/lodash.isarray-3.0.4.tgz"
     },
+    "lodash.istypedarray": {
+      "version": "3.0.2",
+      "from": "lodash.istypedarray@>=3.0.0 <4.0.0",
+      "resolved": "https://registry.npm.taobao.org/lodash.istypedarray/download/lodash.istypedarray-3.0.2.tgz"
+    },
     "lodash.keys": {
       "version": "3.1.2",
       "from": "lodash.keys@>=3.0.0 <4.0.0",
       "resolved": "https://registry.npm.taobao.org/lodash.keys/download/lodash.keys-3.1.2.tgz"
     },
+    "lodash.mapvalues": {
+      "version": "3.0.1",
+      "from": "lodash.mapvalues@>=3.0.1 <4.0.0",
+      "resolved": "https://registry.npm.taobao.org/lodash.mapvalues/download/lodash.mapvalues-3.0.1.tgz"
+    },
+    "lodash.pairs": {
+      "version": "3.0.1",
+      "from": "lodash.pairs@>=3.0.0 <4.0.0",
+      "resolved": "https://registry.npm.taobao.org/lodash.pairs/download/lodash.pairs-3.0.1.tgz"
+    },
     "lodash.restparam": {
       "version": "3.6.1",
       "from": "lodash.restparam@>=3.0.0 <4.0.0",
       "resolved": "https://registry.npm.taobao.org/lodash.restparam/download/lodash.restparam-3.6.1.tgz"
+    },
+    "lodash.some": {
+      "version": "3.2.3",
+      "from": "lodash.some@>=3.2.3 <4.0.0",
+      "resolved": "https://registry.npm.taobao.org/lodash.some/download/lodash.some-3.2.3.tgz"
     },
     "lodash.template": {
       "version": "3.6.2",
@@ -5563,6 +5648,11 @@
       "from": "qs@4.0.0",
       "resolved": "https://registry.npm.taobao.org/qs/download/qs-4.0.0.tgz"
     },
+    "query-selector": {
+      "version": "1.0.9",
+      "from": "query-selector@>=1.0.9 <2.0.0",
+      "resolved": "https://registry.npm.taobao.org/query-selector/download/query-selector-1.0.9.tgz"
+    },
     "query-string": {
       "version": "3.0.0",
       "from": "query-string@>=3.0.0 <4.0.0",
@@ -5626,6 +5716,11 @@
       "version": "0.14.3",
       "from": "react-dom@latest",
       "resolved": "https://registry.npm.taobao.org/react-dom/download/react-dom-0.14.3.tgz"
+    },
+    "react-faux-dom": {
+      "version": "2.1.1",
+      "from": "react-faux-dom@latest",
+      "resolved": "https://registry.npm.taobao.org/react-faux-dom/download/react-faux-dom-2.1.1.tgz"
     },
     "react-hot-api": {
       "version": "0.4.6",
@@ -6092,6 +6187,11 @@
       "version": "1.0.4",
       "from": "strip-json-comments@>=1.0.4 <1.1.0",
       "resolved": "https://registry.npm.taobao.org/strip-json-comments/download/strip-json-comments-1.0.4.tgz"
+    },
+    "style-attr": {
+      "version": "1.0.1",
+      "from": "style-attr@>=1.0.1 <2.0.0",
+      "resolved": "https://registry.npm.taobao.org/style-attr/download/style-attr-1.0.1.tgz"
     },
     "style-loader": {
       "version": "0.13.0",
