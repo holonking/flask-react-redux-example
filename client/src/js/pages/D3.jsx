@@ -80,7 +80,7 @@ export default class Docs extends Component {
     return (
       <div ref="container">
         <PageHeader>D3.js test page <small>A bar chart</small></PageHeader>
-        <HtmlBarChart {...this.state}  />
+        <HtmlBarChart {...this.state} />
       </div>
     );
   }

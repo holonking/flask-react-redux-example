@@ -1,0 +1,8 @@
+Dynamic routing on D3 page (using webpack, react-router).
+Redux (wait until official guide on routing finished).
+D3 bar chart svg version.
+Improve navbar's css.
+Markdown on doc page.
+Long-term cache setup.
+Server-side rendering setup.
+Sliding menu (on mobile).
