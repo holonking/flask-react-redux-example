@@ -11,13 +11,19 @@ module.exports = {
   entry: {
     vendor: [
       'react',
+      'react-dom',
       'react-router',
       'redux',
+      'react-redux',
+      'redux-simple-router',
       'history',
       'classnames',
       'loglevel',
-      //'react-bootstrap',
+      'babel-polyfill',
+      'isomorphic-fetch',
       'bootstrap/dist/css/bootstrap.min.css',
+      'd3',
+      //'react-bootstrap',
       //'lodash',
       //'babel-polyfill',
     ]

@@ -1252,6 +1252,11 @@
       "from": "ee-first@1.1.1",
       "resolved": "https://registry.npm.taobao.org/ee-first/download/ee-first-1.1.1.tgz"
     },
+    "encoding": {
+      "version": "0.1.12",
+      "from": "encoding@>=0.1.11 <0.2.0",
+      "resolved": "https://registry.npm.taobao.org/encoding/download/encoding-0.1.12.tgz"
+    },
     "end-of-stream": {
       "version": "1.0.0",
       "from": "end-of-stream@1.0.0",
@@ -1661,6 +1666,11 @@
       "from": "history@>=1.13.0 <1.14.0",
       "resolved": "https://registry.npm.taobao.org/history/download/history-1.13.1.tgz"
     },
+    "hoist-non-react-statics": {
+      "version": "1.0.3",
+      "from": "hoist-non-react-statics@>=1.0.3 <2.0.0",
+      "resolved": "https://registry.npm.taobao.org/hoist-non-react-statics/download/hoist-non-react-statics-1.0.3.tgz"
+    },
     "home-or-tmp": {
       "version": "1.0.0",
       "from": "home-or-tmp@>=1.0.0 <2.0.0",
@@ -1690,6 +1700,11 @@
       "version": "0.0.0",
       "from": "https-browserify@0.0.0",
       "resolved": "https://registry.npm.taobao.org/https-browserify/download/https-browserify-0.0.0.tgz"
+    },
+    "iconv-lite": {
+      "version": "0.4.13",
+      "from": "iconv-lite@>=0.4.13 <0.5.0",
+      "resolved": "https://registry.npm.taobao.org/iconv-lite/download/iconv-lite-0.4.13.tgz"
     },
     "icss-replace-symbols": {
       "version": "1.0.2",
@@ -1899,6 +1914,18 @@
       "version": "2.0.0",
       "from": "isobject@>=2.0.0 <3.0.0",
       "resolved": "https://registry.npm.taobao.org/isobject/download/isobject-2.0.0.tgz"
+    },
+    "isomorphic-fetch": {
+      "version": "2.2.0",
+      "from": "isomorphic-fetch@latest",
+      "resolved": "https://registry.npm.taobao.org/isomorphic-fetch/download/isomorphic-fetch-2.2.0.tgz",
+      "dependencies": {
+        "whatwg-fetch": {
+          "version": "0.10.1",
+          "from": "whatwg-fetch@>=0.10.0",
+          "resolved": "https://registry.npm.taobao.org/whatwg-fetch/download/whatwg-fetch-0.10.1.tgz"
+        }
+      }
     },
     "jju": {
       "version": "1.2.1",
@@ -2309,6 +2336,11 @@
       "version": "1.0.2",
       "from": "nested-error-stacks@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npm.taobao.org/nested-error-stacks/download/nested-error-stacks-1.0.2.tgz"
+    },
+    "node-fetch": {
+      "version": "1.3.3",
+      "from": "node-fetch@>=1.0.1 <2.0.0",
+      "resolved": "https://registry.npm.taobao.org/node-fetch/download/node-fetch-1.3.3.tgz"
     },
     "node-libs-browser": {
       "version": "0.5.3",
@@ -5756,6 +5788,11 @@
       "from": "react-prop-types@>=0.3.0 <0.4.0",
       "resolved": "https://registry.npm.taobao.org/react-prop-types/download/react-prop-types-0.3.0.tgz"
     },
+    "react-redux": {
+      "version": "4.0.4",
+      "from": "react-redux@latest",
+      "resolved": "https://registry.npm.taobao.org/react-redux/download/react-redux-4.0.4.tgz"
+    },
     "react-router": {
       "version": "1.0.2",
       "from": "react-router@latest",
@@ -5858,6 +5895,11 @@
       "version": "3.0.5",
       "from": "redux@3.0.5",
       "resolved": "https://registry.npm.taobao.org/redux/download/redux-3.0.5.tgz"
+    },
+    "redux-simple-router": {
+      "version": "1.0.2",
+      "from": "redux-simple-router@latest",
+      "resolved": "https://registry.npm.taobao.org/redux-simple-router/download/redux-simple-router-1.0.2.tgz"
     },
     "regenerate": {
       "version": "1.2.1",
