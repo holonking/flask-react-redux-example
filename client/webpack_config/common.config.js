@@ -23,11 +23,13 @@ module.exports = {
       'babel-polyfill',
       'isomorphic-fetch',
       'bootstrap/dist/css/bootstrap.min.css',
-      'd3',
       //'react-bootstrap',
       //'lodash',
       //'babel-polyfill',
-    ]
+    ],
+    d3: [
+      'd3',
+    ],
   },
   output: {
     path: path.join(__dirname, '../build/static'),
@@ -37,8 +39,8 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin(globalVars),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: Infinity
+      names: ['d3', 'vendor'],
+      minChunks: Infinity,
     }),
     //new webpack.ProvidePlugin({
     //  loglevel: 'loglevel'

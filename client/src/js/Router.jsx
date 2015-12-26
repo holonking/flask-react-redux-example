@@ -5,7 +5,7 @@ import createBrowserHistory from 'history/lib/createBrowserHistory'
 import App from './App';
 import Home from './pages/Home';
 import Docs from './pages/Docs';
-import D3 from './pages/D3';
+//import D3 from './pages/D3';
 
 
 export default (
@@ -13,7 +13,11 @@ export default (
     <Route path="/" component={App}>
       <IndexRoute component={Home} />
       <Route path="docs" component={Docs} />
-      <Route path="d3" component={D3} />
+      <Route path="d3" getComponent={(location, callback) => {
+        require.ensure([], (require) => {
+          callback(null, require('./pages/D3'));
+        });
+      }} />
     </Route>
   </Router>
 );
