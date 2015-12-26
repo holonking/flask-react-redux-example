@@ -123,9 +123,9 @@
       "resolved": "https://registry.npm.taobao.org/async-each/download/async-each-0.1.6.tgz"
     },
     "autoprefixer": {
-      "version": "6.1.2",
+      "version": "6.2.1",
       "from": "autoprefixer@>=6.0.3 <7.0.0",
-      "resolved": "https://registry.npm.taobao.org/autoprefixer/download/autoprefixer-6.1.2.tgz"
+      "resolved": "https://registry.npm.taobao.org/autoprefixer/download/autoprefixer-6.2.1.tgz"
     },
     "babel": {
       "version": "6.3.13",
@@ -145,14 +145,29 @@
       }
     },
     "babel-core": {
-      "version": "6.3.17",
-      "from": "babel-core@6.3.17",
-      "resolved": "https://registry.npm.taobao.org/babel-core/download/babel-core-6.3.17.tgz",
+      "version": "6.3.26",
+      "from": "babel-core@6.3.26",
+      "resolved": "https://registry.npm.taobao.org/babel-core/download/babel-core-6.3.26.tgz",
       "dependencies": {
         "babel-runtime": {
           "version": "5.8.34",
           "from": "babel-runtime@>=5.0.0 <6.0.0",
           "resolved": "https://registry.npm.taobao.org/babel-runtime/download/babel-runtime-5.8.34.tgz"
+        },
+        "babel-traverse": {
+          "version": "6.3.26",
+          "from": "babel-traverse@>=6.3.26 <7.0.0",
+          "resolved": "https://registry.npm.taobao.org/babel-traverse/download/babel-traverse-6.3.26.tgz"
+        },
+        "babel-types": {
+          "version": "6.3.24",
+          "from": "babel-types@>=6.3.21 <7.0.0",
+          "resolved": "https://registry.npm.taobao.org/babel-types/download/babel-types-6.3.24.tgz"
+        },
+        "babylon": {
+          "version": "6.3.26",
+          "from": "babylon@>=6.3.26 <7.0.0",
+          "resolved": "https://registry.npm.taobao.org/babylon/download/babylon-6.3.26.tgz"
         },
         "path-exists": {
           "version": "1.0.0",
@@ -167,14 +182,26 @@
       }
     },
     "babel-generator": {
-      "version": "6.3.20",
-      "from": "babel-generator@>=6.3.17 <7.0.0",
-      "resolved": "https://registry.npm.taobao.org/babel-generator/download/babel-generator-6.3.20.tgz",
+      "version": "6.3.26",
+      "from": "babel-generator@>=6.3.26 <7.0.0",
+      "resolved": "https://registry.npm.taobao.org/babel-generator/download/babel-generator-6.3.26.tgz",
       "dependencies": {
         "babel-runtime": {
           "version": "5.8.34",
           "from": "babel-runtime@>=5.0.0 <6.0.0",
           "resolved": "https://registry.npm.taobao.org/babel-runtime/download/babel-runtime-5.8.34.tgz"
+        },
+        "babel-traverse": {
+          "version": "6.3.26",
+          "from": "babel-traverse@>=6.3.24 <7.0.0"
+        },
+        "babel-types": {
+          "version": "6.3.24",
+          "from": "babel-types@>=6.3.21 <7.0.0"
+        },
+        "babylon": {
+          "version": "6.3.26",
+          "from": "babylon@>=6.3.26 <7.0.0"
         },
         "source-map": {
           "version": "0.5.3",
@@ -941,9 +968,9 @@
       "resolved": "https://registry.npm.taobao.org/camelcase-keys/download/camelcase-keys-2.0.0.tgz"
     },
     "caniuse-db": {
-      "version": "1.0.30000377",
-      "from": "caniuse-db@>=1.0.30000372 <2.0.0",
-      "resolved": "https://registry.npm.taobao.org/caniuse-db/download/caniuse-db-1.0.30000377.tgz"
+      "version": "1.0.30000381",
+      "from": "caniuse-db@>=1.0.30000379 <2.0.0",
+      "resolved": "https://registry.npm.taobao.org/caniuse-db/download/caniuse-db-1.0.30000381.tgz"
     },
     "center-align": {
       "version": "0.1.2",
@@ -1120,9 +1147,9 @@
       "resolved": "https://registry.npm.taobao.org/css-color-names/download/css-color-names-0.0.2.tgz"
     },
     "css-loader": {
-      "version": "0.23.0",
-      "from": "css-loader@0.23.0",
-      "resolved": "https://registry.npm.taobao.org/css-loader/download/css-loader-0.23.0.tgz"
+      "version": "0.23.1",
+      "from": "css-loader@0.23.1",
+      "resolved": "https://registry.npm.taobao.org/css-loader/download/css-loader-0.23.1.tgz"
     },
     "css-selector-tokenizer": {
       "version": "0.5.4",
@@ -1674,9 +1701,9 @@
       "resolved": "https://registry.npm.taobao.org/has-own/download/has-own-1.0.0.tgz"
     },
     "history": {
-      "version": "1.13.1",
-      "from": "history@>=1.13.0 <1.14.0",
-      "resolved": "https://registry.npm.taobao.org/history/download/history-1.13.1.tgz"
+      "version": "1.17.0",
+      "from": "history@1.17.0",
+      "resolved": "https://registry.npm.taobao.org/history/download/history-1.17.0.tgz"
     },
     "hoist-non-react-statics": {
       "version": "1.0.3",
@@ -2379,6 +2406,11 @@
       "version": "2.0.1",
       "from": "normalize-path@>=2.0.0 <3.0.0",
       "resolved": "https://registry.npm.taobao.org/normalize-path/download/normalize-path-2.0.1.tgz"
+    },
+    "normalize-range": {
+      "version": "0.1.2",
+      "from": "normalize-range@>=0.1.2 <0.2.0",
+      "resolved": "https://registry.npm.taobao.org/normalize-range/download/normalize-range-0.1.2.tgz"
     },
     "normalize-url": {
       "version": "1.4.0",
@@ -5498,9 +5530,9 @@
       "resolved": "https://registry.npm.taobao.org/postcss-convert-values/download/postcss-convert-values-2.3.4.tgz"
     },
     "postcss-discard-comments": {
-      "version": "2.0.2",
+      "version": "2.0.3",
       "from": "postcss-discard-comments@>=2.0.2 <3.0.0",
-      "resolved": "https://registry.npm.taobao.org/postcss-discard-comments/download/postcss-discard-comments-2.0.2.tgz"
+      "resolved": "https://registry.npm.taobao.org/postcss-discard-comments/download/postcss-discard-comments-2.0.3.tgz"
     },
     "postcss-discard-duplicates": {
       "version": "2.0.0",
@@ -5568,9 +5600,9 @@
       "resolved": "https://registry.npm.taobao.org/postcss-modules-extract-imports/download/postcss-modules-extract-imports-1.0.0.tgz"
     },
     "postcss-modules-local-by-default": {
-      "version": "1.0.0",
-      "from": "postcss-modules-local-by-default@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npm.taobao.org/postcss-modules-local-by-default/download/postcss-modules-local-by-default-1.0.0.tgz"
+      "version": "1.0.1",
+      "from": "postcss-modules-local-by-default@>=1.0.1 <2.0.0",
+      "resolved": "https://registry.npm.taobao.org/postcss-modules-local-by-default/download/postcss-modules-local-by-default-1.0.1.tgz"
     },
     "postcss-modules-scope": {
       "version": "1.0.0",
@@ -5801,14 +5833,14 @@
       "resolved": "https://registry.npm.taobao.org/react-prop-types/download/react-prop-types-0.3.0.tgz"
     },
     "react-redux": {
-      "version": "4.0.4",
-      "from": "react-redux@latest",
-      "resolved": "https://registry.npm.taobao.org/react-redux/download/react-redux-4.0.4.tgz"
+      "version": "4.0.5",
+      "from": "react-redux@4.0.5",
+      "resolved": "https://registry.npm.taobao.org/react-redux/download/react-redux-4.0.5.tgz"
     },
     "react-router": {
-      "version": "1.0.2",
-      "from": "react-router@latest",
-      "resolved": "https://registry.npm.taobao.org/react-router/download/react-router-1.0.2.tgz"
+      "version": "1.0.3",
+      "from": "react-router@1.0.3",
+      "resolved": "https://registry.npm.taobao.org/react-router/download/react-router-1.0.3.tgz"
     },
     "react-router-bootstrap": {
       "version": "0.19.3",
