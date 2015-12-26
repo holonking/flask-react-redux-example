@@ -54,6 +54,8 @@ export default class Docs extends Component {
   constructor(props) {
     super(props);
     this.state = {data: [4, 8, 15, 16, 23, 42]};
+
+    this.handleResize = this.handleResize.bind(this);
   }
   componentDidMount() {
     // Tell the D3 bar chart the size of the containing element, thus making 
@@ -61,10 +63,7 @@ export default class Docs extends Component {
     // because the size of the div is unknown before mounting.
     this.setSize();
     // do the same on window resize
-    window.addEventListener('resize', () => {
-      log.info('Window resize event.');
-      this.setSize();
-    });
+    window.addEventListener('resize', this.handleResize);
 
     var newData = [5, 8, 25, 16, 13, 35];
     setTimeout(() => {
@@ -73,7 +72,14 @@ export default class Docs extends Component {
       });
     }, 2000);
   }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
 
+  handleResize() {
+    log.info('Window resize event.');
+    this.setSize();
+  }
   setSize() {
     var containerWidth = this.refs.container.clientWidth;
     this.setState({
