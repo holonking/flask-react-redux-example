@@ -4,6 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Grid, Row, Navbar, Nav, NavItem } from 'react-bootstrap';
 
 import logo from '../img/logo.svg';
+import styles from './App.css';
 
 
 var GitHubPage = 'https://github.com/kawing-chiu/flask-react-redux-example'
@@ -11,7 +12,7 @@ var GitHubPage = 'https://github.com/kawing-chiu/flask-react-redux-example'
 class Logo extends Component {
   render() {
     return (
-      <div className="App--TopNavBar-Logo">
+      <div className={styles.logo}>
         <img src={logo} width="36" height="36" />
         Flask-react-redux-example
       </div>

@@ -1,7 +1,8 @@
-
-body {
-  font-family: proxima-nova,"Helvetica Neue",Helvetica,Roboto,Arial,sans-serif;
-}
+/* 
+ * This is the "global" css file reserved for treaking css rules defined in 
+ * third party libraries. Other css files are defined as "css modules" and 
+ * placed into ../js/ together with the corresponding react components.
+ */
 
 .navbar .navbar-brand {
   padding-top: 8px;
@@ -11,16 +12,4 @@ body {
   font-size: 1.3em;
 }
 
-.App--TopNavBar-Logo {
-  color: #00d8ff;
-  font-size: 1.3em;
-}
 
-.D3--chart div {
-  font: 10px sans-serif;
-  background-color: steelblue;
-  text-align: right;
-  padding: 3px;
-  margin: 1px;
-  color: white;
-}

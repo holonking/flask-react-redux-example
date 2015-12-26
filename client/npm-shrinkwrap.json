@@ -1037,6 +1037,18 @@
       "from": "compression@>=1.5.2 <2.0.0",
       "resolved": "https://registry.npm.taobao.org/compression/download/compression-1.6.0.tgz"
     },
+    "compression-webpack-plugin": {
+      "version": "0.2.0",
+      "from": "compression-webpack-plugin@latest",
+      "resolved": "https://registry.npm.taobao.org/compression-webpack-plugin/download/compression-webpack-plugin-0.2.0.tgz",
+      "dependencies": {
+        "async": {
+          "version": "0.2.10",
+          "from": "async@>=0.2.0 <0.3.0",
+          "resolved": "https://registry.npm.taobao.org/async/download/async-0.2.10.tgz"
+        }
+      }
+    },
     "concat-map": {
       "version": "0.0.1",
       "from": "concat-map@0.0.1",
@@ -5900,6 +5912,11 @@
       "version": "1.0.2",
       "from": "redux-simple-router@latest",
       "resolved": "https://registry.npm.taobao.org/redux-simple-router/download/redux-simple-router-1.0.2.tgz"
+    },
+    "redux-thunk": {
+      "version": "1.0.2",
+      "from": "redux-thunk@latest",
+      "resolved": "https://registry.npm.taobao.org/redux-thunk/download/redux-thunk-1.0.2.tgz"
     },
     "regenerate": {
       "version": "1.2.1",

@@ -3,6 +3,8 @@ import { PageHeader } from 'react-bootstrap';
 import ReactFauxDOM from 'react-faux-dom';
 import d3 from 'd3';
 
+import styles from './D3.css';
+
 var log = logger('D3');
 
 
@@ -27,7 +29,7 @@ class HtmlBarChart extends Component {
 
     var node = ReactFauxDOM.createElement('div');
     var chart = d3.select(node);
-    chart.classed('D3--chart', true);
+    chart.classed(styles.barChart, true);
 
     log.debug('node:', node);
     log.debug('chart:', chart);
@@ -40,6 +42,8 @@ class HtmlBarChart extends Component {
 
     log.debug('bar:', bar);
     log.debug('barUpdate:', barUpdate);
+
+    log.info('Drew barchart with', data, ', width:', width);
 
     return node.toReact();
   }
@@ -58,6 +62,7 @@ export default class Docs extends Component {
     this.setSize();
     // do the same on window resize
     window.addEventListener('resize', () => {
+      log.info('Window resize event.');
       this.setSize();
     });
 

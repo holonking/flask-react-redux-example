@@ -13,8 +13,9 @@ module.exports = {
       'react',
       'react-dom',
       'react-router',
-      'redux',
       'react-redux',
+      'redux',
+      'redux-thunk',
       'redux-simple-router',
       'history',
       'classnames',
@@ -52,6 +53,17 @@ module.exports = {
     loaders: [
       {
         test: /\.css$/,
+        //exclude: /node_modules/,
+        include: path.join(__dirname, '../src/js/'),
+        loader: ExtractTextPlugin.extract(
+          'style',
+          'css?modules&importLoaders=1' +
+            '&localIdentName=[name]__[local]___[hash:base64:5]'
+        )
+      },
+      {
+        test: /\.css$/,
+        exclude: path.join(__dirname, '../src/js/'),
         loader: ExtractTextPlugin.extract('style', 'css')
       },
       {
