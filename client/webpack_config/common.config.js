@@ -39,9 +39,17 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin(globalVars),
     new webpack.optimize.CommonsChunkPlugin({
-      names: ['d3', 'vendor'],
+      //names: ['d3', 'vendor'],
+      name: 'vendor',
       minChunks: Infinity,
     }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'd3',
+      minChunks: Infinity,
+      async: true,
+      //children: true,
+    }),
+
     //new webpack.ProvidePlugin({
     //  loglevel: 'loglevel'
     //})

@@ -29,7 +29,8 @@ var devConfig = {
     ],
   },
   output: {
-    filename: '[name].js'
+    filename: '[name].js',
+    chunkFilename: '[id].[name].js'
   },
 
   plugins: [

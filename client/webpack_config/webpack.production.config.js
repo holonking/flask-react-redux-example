@@ -22,7 +22,8 @@ var productionConfig = {
     ],
   },
   output: {
-    filename: '[name].[chunkhash].js'
+    filename: '[name].[chunkhash].js',
+    chunkFilename: '[id].[name].[chunkhash].js'
   },
 
   plugins: [

@@ -12,8 +12,7 @@ class HtmlBarChart extends Component {
   render() {
     var data = this.props.data;
     var width = this.props.width;
-    log.debug('data:', data);
-    log.debug('width:', width);
+    log.debug('data:', data, 'width:', width);
 
     if (!width) {
       // render nothing if the width of the containing div is unknown
@@ -50,7 +49,7 @@ class HtmlBarChart extends Component {
 }
 
 
-export default class Docs extends Component {
+export default class D3 extends Component {
   constructor(props) {
     super(props);
     this.state = {data: [4, 8, 15, 16, 23, 42]};

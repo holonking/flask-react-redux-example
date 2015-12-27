@@ -14,8 +14,8 @@ export default (
       <IndexRoute component={Home} />
       <Route path="docs" component={Docs} />
       <Route path="d3" getComponent={(location, callback) => {
-        require.ensure([], (require) => {
-          callback(null, require('./pages/D3'));
+        require.ensure(['d3'], (require) => {
+          callback(null, require('./pages/D3').default);
         });
       }} />
     </Route>
