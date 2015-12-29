@@ -5,8 +5,9 @@ import createBrowserHistory from 'history/lib/createBrowserHistory'
 import App from './App';
 import Home from './pages/Home';
 import Docs from './pages/Docs';
-//import D3 from './pages/D3';
 
+//import D3 from './pages/D3';
+var loadD3 = require('bundle?lazy&name=d3!d3');
 
 export default (
   <Router history={createBrowserHistory()}>
@@ -14,8 +15,10 @@ export default (
       <IndexRoute component={Home} />
       <Route path="docs" component={Docs} />
       <Route path="d3" getComponent={(location, callback) => {
-        require.ensure(['d3'], (require) => {
-          callback(null, require('./pages/D3').default);
+        loadD3(() => {
+          //require.ensure([], (require) => {
+            callback(null, require('./pages/D3').default);
+          //});
         });
       }} />
     </Route>

@@ -9,6 +9,7 @@ var globalVars = {
 
 module.exports = {
   entry: {
+    runtime: [],
     vendor: [
       'react',
       'react-dom',
@@ -23,9 +24,6 @@ module.exports = {
       'babel-polyfill',
       'isomorphic-fetch',
       'bootstrap/dist/css/bootstrap.min.css',
-      //'react-bootstrap',
-      //'lodash',
-      //'babel-polyfill',
     ],
     d3: [
       'd3',
@@ -38,16 +36,22 @@ module.exports = {
 
   plugins: [
     new webpack.DefinePlugin(globalVars),
+    // The NamedModulesPlugin changes the module id format from number into 
+    // file name, so we can get a more 'stable' vendor/d3 chunk.
+    // See https://github.com/webpack/webpack/issues/1315.
+    new webpack.NamedModulesPlugin(),
+
+    // Also put the runtime into a separate chunk.
     new webpack.optimize.CommonsChunkPlugin({
-      //names: ['d3', 'vendor'],
-      name: 'vendor',
+      names: ['vendor', 'runtime'],
       minChunks: Infinity,
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'd3',
+      // Has to be explicit on the chunks here. Should investigate the 
+      // internals of CommonsChunkPlugin if have time.
+      chunks: ['d3', 'app'],
       minChunks: Infinity,
-      async: true,
-      //children: true,
     }),
 
     //new webpack.ProvidePlugin({

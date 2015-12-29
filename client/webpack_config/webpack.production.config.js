@@ -23,17 +23,17 @@ var productionConfig = {
   },
   output: {
     filename: '[name].[chunkhash].js',
-    chunkFilename: '[id].[name].[chunkhash].js'
+    chunkFilename: '[name].[chunkhash].js'
   },
 
   plugins: [
     new webpack.DefinePlugin(globalVars),
     new ExtractTextPlugin('[name].[chunkhash].css'),
 
-    new ChunkManifestPlugin({
-      filename: 'chunk-manifest.json',
-      manifestVariable: 'webpackManifest'
-    }),
+    //new ChunkManifestPlugin({
+    //  filename: 'chunk-manifest.json',
+    //  manifestVariable: 'webpackManifest'
+    //}),
     new ManifestPlugin({
       fileName: 'manifest.json',
       basePath: '/static/'

@@ -952,6 +952,11 @@
       "from": "builtin-modules@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npm.taobao.org/builtin-modules/download/builtin-modules-1.1.0.tgz"
     },
+    "bundle-loader": {
+      "version": "0.5.4",
+      "from": "bundle-loader@latest",
+      "resolved": "https://registry.npmjs.org/bundle-loader/-/bundle-loader-0.5.4.tgz"
+    },
     "bytes": {
       "version": "2.1.0",
       "from": "bytes@2.1.0",
