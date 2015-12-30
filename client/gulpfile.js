@@ -1,5 +1,10 @@
 var gulp = require('gulp');
+var fs = require('fs');
+var glob = require('glob');
 var del = require('del');
+var extend = require('lodash/object/extend');
+
+var handlebars = require('handlebars');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
    
@@ -24,7 +29,7 @@ gulp.task('copy-index', function() {
     .pipe(gulp.dest('./build/'));
   return stream;
 });
-   
+
 gulp.task('build-client', ['clean-client'], function(cb) {
   var compiler = webpack(productionConfig);
   compiler.run(function(err, stats) {
@@ -39,7 +44,24 @@ gulp.task('build-client', ['clean-client'], function(cb) {
   });
 });
  
-gulp.task('build', ['build-client', 'copy-index']);
+gulp.task('gen-index', ['build-client'], function(cb) {
+  var index = fs.readFileSync('./src/html/index.html.production', 'utf-8');
+  var runtime_file = glob.sync('./build/static/runtime*.js')[0];
+  var runtime = fs.readFileSync(runtime_file, 'utf-8');
+
+  var data = JSON.parse(
+    fs.readFileSync('./build/static/manifest.json', 'utf-8')
+  );
+  data = extend(data, {runtime_script: runtime});
+
+  var template = handlebars.compile(index);
+  var res = template(data);
+
+  fs.writeFileSync('./build/index.html', res);
+  cb();
+});
+
+gulp.task('build', ['build-client', 'gen-index']);
 
 gulp.task('dev', function() {
   var port = devConfig.devServerPort;
@@ -58,6 +80,7 @@ gulp.task('dev', function() {
         secure: false,
       },
     },
+    compress: true,
   });
   server.listen(port, host, function(err) {
     if (err) {

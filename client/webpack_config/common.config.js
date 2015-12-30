@@ -50,7 +50,7 @@ module.exports = {
       name: 'd3',
       // Has to be explicit on the chunks here. Should investigate the 
       // internals of CommonsChunkPlugin if have time.
-      chunks: ['d3', 'app'],
+      chunks: ['app'],
       minChunks: Infinity,
     }),
 
@@ -67,18 +67,23 @@ module.exports = {
     loaders: [
       {
         test: /\.css$/,
-        //exclude: /node_modules/,
         include: path.join(__dirname, '../src/js/'),
+        //loaders: [
+        //  'style',
+        //  'css?modules&importLoaders=1' +
+        //    '&localIdentName=[name]__[local]___[hash:base64:5]'
+        //],
         loader: ExtractTextPlugin.extract(
           'style',
           'css?modules&importLoaders=1' +
             '&localIdentName=[name]__[local]___[hash:base64:5]'
-        )
+        ),
       },
       {
         test: /\.css$/,
         exclude: path.join(__dirname, '../src/js/'),
-        loader: ExtractTextPlugin.extract('style', 'css')
+        //loaders: ['style', 'css'],
+        loader: ExtractTextPlugin.extract('style', 'css'),
       },
       {
         test: /\.png$|\.jpe?g$/,

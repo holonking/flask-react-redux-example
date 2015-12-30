@@ -1,4 +1,4 @@
-*Dynamic routing on D3 page (using webpack, react-router).
+Done - *Dynamic routing on D3 page (using webpack, react-router).
 *Redux (wait until official guide on routing finished).
 D3 bar chart svg version.
 Improve navbar's css.
@@ -6,9 +6,11 @@ Done - *Use css modules.
 Markdown on doc page.
 *Long-term cache setup.
 Server-side rendering setup.
+Test infrastructure.
 
 Sliding menu (on mobile, with animation).
 Mobile UI with weui.
+
 
 User authentication.
 Payment.

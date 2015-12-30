@@ -5719,6 +5719,11 @@
       "from": "punycode@>=1.2.4 <2.0.0",
       "resolved": "https://registry.npm.taobao.org/punycode/download/punycode-1.4.0.tgz"
     },
+    "purecss": {
+      "version": "0.6.0",
+      "from": "purecss@latest",
+      "resolved": "https://registry.npm.taobao.org/purecss/download/purecss-0.6.0.tgz"
+    },
     "q": {
       "version": "1.4.1",
       "from": "q@>=1.1.2 <2.0.0",
