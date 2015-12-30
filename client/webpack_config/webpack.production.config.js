@@ -41,14 +41,14 @@ var productionConfig = {
 
     //new webpack.ContextReplacementPlugin(/moment\/locale$/, /zh-cn/),
 
-    //new webpack.optimize.UglifyJsPlugin({
-    //  compress: {
-    //    warnings: false,
-    //  }
-    //}),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+      }
+    }),
     new webpack.optimize.OccurenceOrderPlugin(),
     // XXX: The DedupePlugin seems to be broken:
-    new webpack.optimize.DedupePlugin(),
+    //new webpack.optimize.DedupePlugin(),
 
     new CompressionPlugin({
       asset: '{file}.gz',

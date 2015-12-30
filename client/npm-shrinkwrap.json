@@ -1441,9 +1441,9 @@
       "resolved": "https://registry.npm.taobao.org/faye-websocket/download/faye-websocket-0.9.4.tgz"
     },
     "fbjs": {
-      "version": "0.3.2",
-      "from": "fbjs@>=0.3.1 <0.4.0",
-      "resolved": "https://registry.npm.taobao.org/fbjs/download/fbjs-0.3.2.tgz"
+      "version": "0.6.0",
+      "from": "fbjs@>=0.6.0 <0.7.0",
+      "resolved": "https://registry.npm.taobao.org/fbjs/download/fbjs-0.6.0.tgz"
     },
     "file-loader": {
       "version": "0.8.5",
@@ -1533,9 +1533,9 @@
       "resolved": "https://registry.npm.taobao.org/get-stdin/download/get-stdin-5.0.1.tgz"
     },
     "glob": {
-      "version": "6.0.1",
-      "from": "glob@>=6.0.1 <7.0.0",
-      "resolved": "https://registry.npm.taobao.org/glob/download/glob-6.0.1.tgz"
+      "version": "6.0.3",
+      "from": "glob@>=6.0.3 <7.0.0",
+      "resolved": "https://registry.npm.taobao.org/glob/download/glob-6.0.3.tgz"
     },
     "glob-base": {
       "version": "0.3.0",
@@ -1684,6 +1684,18 @@
       "version": "1.0.0",
       "from": "gulplog@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npm.taobao.org/gulplog/download/gulplog-1.0.0.tgz"
+    },
+    "handlebars": {
+      "version": "4.0.5",
+      "from": "handlebars@latest",
+      "resolved": "https://registry.npm.taobao.org/handlebars/download/handlebars-4.0.5.tgz",
+      "dependencies": {
+        "source-map": {
+          "version": "0.4.4",
+          "from": "source-map@>=0.4.4 <0.5.0",
+          "resolved": "https://registry.npm.taobao.org/source-map/download/source-map-0.4.4.tgz"
+        }
+      }
     },
     "has-ansi": {
       "version": "2.0.0",
@@ -3958,16 +3970,9 @@
       }
     },
     "npm-check-updates": {
-      "version": "2.5.4",
-      "from": "npm-check-updates@latest",
-      "resolved": "https://registry.npm.taobao.org/npm-check-updates/download/npm-check-updates-2.5.4.tgz",
-      "dependencies": {
-        "lodash": {
-          "version": "3.10.1",
-          "from": "lodash@>=3.10.1 <4.0.0",
-          "resolved": "https://registry.npm.taobao.org/lodash/download/lodash-3.10.1.tgz"
-        }
-      }
+      "version": "2.5.6",
+      "from": "npm-check-updates@2.5.6",
+      "resolved": "https://registry.npm.taobao.org/npm-check-updates/download/npm-check-updates-2.5.6.tgz"
     },
     "npmi": {
       "version": "1.0.1",
@@ -5700,9 +5705,9 @@
       "resolved": "https://registry.npm.taobao.org/process-nextick-args/download/process-nextick-args-1.0.6.tgz"
     },
     "promise": {
-      "version": "7.0.4",
+      "version": "7.1.1",
       "from": "promise@>=7.0.3 <8.0.0",
-      "resolved": "https://registry.npm.taobao.org/promise/download/promise-7.0.4.tgz"
+      "resolved": "https://registry.npm.taobao.org/promise/download/promise-7.1.1.tgz"
     },
     "proxy-addr": {
       "version": "1.0.10",
@@ -5770,9 +5775,9 @@
       "resolved": "https://registry.npm.taobao.org/range-parser/download/range-parser-1.0.3.tgz"
     },
     "rc": {
-      "version": "1.1.5",
+      "version": "1.1.6",
       "from": "rc@>=1.0.1 <2.0.0",
-      "resolved": "https://registry.npm.taobao.org/rc/download/rc-1.1.5.tgz",
+      "resolved": "https://registry.npm.taobao.org/rc/download/rc-1.1.6.tgz",
       "dependencies": {
         "minimist": {
           "version": "1.2.0",
@@ -5782,9 +5787,9 @@
       }
     },
     "react": {
-      "version": "0.14.3",
-      "from": "react@0.14.3",
-      "resolved": "https://registry.npm.taobao.org/react/download/react-0.14.3.tgz"
+      "version": "0.14.5",
+      "from": "react@0.14.5",
+      "resolved": "https://registry.npm.taobao.org/react/download/react-0.14.5.tgz"
     },
     "react-bootstrap": {
       "version": "0.28.1",
@@ -5799,9 +5804,9 @@
       }
     },
     "react-dom": {
-      "version": "0.14.3",
-      "from": "react-dom@latest",
-      "resolved": "https://registry.npm.taobao.org/react-dom/download/react-dom-0.14.3.tgz"
+      "version": "0.14.5",
+      "from": "react-dom@0.14.5",
+      "resolved": "https://registry.npm.taobao.org/react-dom/download/react-dom-0.14.5.tgz"
     },
     "react-faux-dom": {
       "version": "2.1.1",
@@ -5843,9 +5848,9 @@
       "resolved": "https://registry.npm.taobao.org/react-prop-types/download/react-prop-types-0.3.0.tgz"
     },
     "react-redux": {
-      "version": "4.0.5",
-      "from": "react-redux@4.0.5",
-      "resolved": "https://registry.npm.taobao.org/react-redux/download/react-redux-4.0.5.tgz"
+      "version": "4.0.6",
+      "from": "react-redux@4.0.6",
+      "resolved": "https://registry.npm.taobao.org/react-redux/download/react-redux-4.0.6.tgz"
     },
     "react-router": {
       "version": "1.0.3",
@@ -5956,9 +5961,9 @@
       "resolved": "https://registry.npm.taobao.org/redux-simple-router/download/redux-simple-router-1.0.2.tgz"
     },
     "redux-thunk": {
-      "version": "1.0.2",
-      "from": "redux-thunk@latest",
-      "resolved": "https://registry.npm.taobao.org/redux-thunk/download/redux-thunk-1.0.2.tgz"
+      "version": "1.0.3",
+      "from": "redux-thunk@1.0.3",
+      "resolved": "https://registry.npm.taobao.org/redux-thunk/download/redux-thunk-1.0.3.tgz"
     },
     "regenerate": {
       "version": "1.2.1",
