@@ -5,12 +5,19 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 var globalVars = {
   __DEV__: process.env.FRONTEND_DEBUG == 'on',
+  __WEINRE__: process.env.WEINRE_ADDR !== undefined ?
+    // the DefinePlugin uses string directly as *code fragment*, so we have to 
+    // quote it:
+    JSON.stringify(process.env.WEINRE_ADDR) : false,
 };
 
 module.exports = {
   entry: {
     runtime: [],
     vendor: [
+      'es5-shim/es5-shim',
+      'babel-polyfill',
+      'isomorphic-fetch',
       'react',
       'react-dom',
       'react-router',
@@ -21,8 +28,6 @@ module.exports = {
       'history',
       'classnames',
       'loglevel',
-      'babel-polyfill',
-      'isomorphic-fetch',
       'bootstrap/dist/css/bootstrap.min.css',
     ],
     d3: [

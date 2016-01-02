@@ -1,13 +1,13 @@
-import 'babel-polyfill';
-import 'isomorphic-fetch';
+//import 'es5-shim/es5-shim';
+//import 'babel-polyfill';
+//import 'isomorphic-fetch';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
-import './initialize'
+import './initialize';
 import '../css/styles.css';
-import Router from './Router'
+import Router from './Router';
 
 
 ReactDOM.render(

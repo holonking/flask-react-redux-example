@@ -1333,6 +1333,11 @@
       "from": "error-ex@>=1.2.0 <2.0.0",
       "resolved": "https://registry.npm.taobao.org/error-ex/download/error-ex-1.3.0.tgz"
     },
+    "es5-shim": {
+      "version": "4.4.1",
+      "from": "es5-shim@latest",
+      "resolved": "https://registry.npm.taobao.org/es5-shim/download/es5-shim-4.4.1.tgz"
+    },
     "escape-html": {
       "version": "1.0.2",
       "from": "escape-html@1.0.2",
