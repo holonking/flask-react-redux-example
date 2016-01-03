@@ -1,9 +1,11 @@
-var gulp = require('gulp');
 var fs = require('fs');
+var stream = require('stream');
 var glob = require('glob');
 var del = require('del');
+var gzip = require('zlib').createGzip();
 var extend = require('lodash/object/extend');
 
+var gulp = require('gulp');
 var handlebars = require('handlebars');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
@@ -44,10 +46,11 @@ gulp.task('build-client', ['clean-client'], function(cb) {
   });
 });
  
+//gulp.task('gen-index', [], function(cb) {
 gulp.task('gen-index', ['build-client'], function(cb) {
   var index = fs.readFileSync('./src/html/index.html.production', 'utf-8');
-  var runtime_file = glob.sync('./build/static/runtime*.js')[0];
-  var runtime = fs.readFileSync(runtime_file, 'utf-8');
+  var runtimeFile = glob.sync('./build/static/runtime*.js')[0];
+  var runtime = fs.readFileSync(runtimeFile, 'utf-8');
 
   var data = JSON.parse(
     fs.readFileSync('./build/static/manifest.json', 'utf-8')
@@ -58,6 +61,14 @@ gulp.task('gen-index', ['build-client'], function(cb) {
   var res = template(data);
 
   fs.writeFileSync('./build/index.html', res);
+
+  var rstream = new stream.Readable;
+  rstream.push(res);
+  rstream.push(null);
+
+  var wstream = fs.createWriteStream('./build/index.html.gz');
+  rstream.pipe(gzip).pipe(wstream);
+
   cb();
 });
 
@@ -65,8 +76,9 @@ gulp.task('build', ['build-client', 'gen-index']);
 
 gulp.task('dev', function() {
   var port = devConfig.devServerPort;
-  var backendPort = devConfig.backendServerPort;
   var host = devConfig.devServerHost;
+  var backendPort = devConfig.backendServerPort;
+  var backendHost = devConfig.backendServerHost;
 
   var server = new WebpackDevServer(webpack(devConfig), {
     contentBase: './src/html',
@@ -76,7 +88,7 @@ gulp.task('dev', function() {
     stats: { colors: true },
     proxy: {
       '/api/*': {
-        target: 'http://' + host + ':' + backendPort,
+        target: 'http://' + backendHost + ':' + backendPort,
         secure: false,
       },
     },
