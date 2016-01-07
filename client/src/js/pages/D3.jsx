@@ -1,59 +1,19 @@
 import React, { Component } from 'react';
 import { PageHeader } from 'react-bootstrap';
 import ReactFauxDOM from 'react-faux-dom';
-import d3 from 'd3';
-
-import styles from './D3.css';
+//import d3 from 'd3';
+import SVGCanvas from '../components/Charts';
+//import styles from './D3.css';
 
 var log = logger('D3');
 
 
-class HtmlBarChart extends Component {
-  render() {
-    var data = this.props.data;
-    var width = this.props.width;
-    log.debug('data:', data, 'width:', width);
-
-    if (!width) {
-      // render nothing if the width of the containing div is unknown
-      return (
-        <div></div>
-      );
-    }
-    width = Math.min(width, 420);
-
-    var x = d3.scale.linear()
-        .domain([0, d3.max(data)])
-        .range([0, width]);
-
-    var node = ReactFauxDOM.createElement('div');
-    var chart = d3.select(node);
-    chart.classed(styles.barChart, true);
-
-    log.debug('node:', node);
-    log.debug('chart:', chart);
-
-    var bar = chart.selectAll('div');
-    var barUpdate = bar.data(data);
-    barUpdate.enter().append('div')
-      .style('width', function(d) { return x(d) + "px"; })
-      .text(function(d) { return d; });
-
-    log.debug('bar:', bar);
-    log.debug('barUpdate:', barUpdate);
-
-    log.info('Drew barchart with', data, ', width:', width);
-
-    return node.toReact();
-  }
-}
 
 
 export default class D3 extends Component {
   constructor(props) {
     super(props);
-    this.state = {data: [4, 8, 15, 16, 23, 42]};
-
+    //this.state = {data: [4, 8, 15, 16, 23, 42]};
     this.handleResize = this.handleResize.bind(this);
   }
   componentDidMount() {
@@ -64,12 +24,10 @@ export default class D3 extends Component {
     // do the same on window resize
     window.addEventListener('resize', this.handleResize);
 
-    var newData = [5, 8, 25, 16, 13, 35];
-    setTimeout(() => {
-      this.setState({
-        data: newData,
-      });
-    }, 2000);
+
+    //read file/////////////////////////////////////////
+    var url = 'api/SSV/600000';
+    this.readData(url);
   }
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
@@ -85,12 +43,32 @@ export default class D3 extends Component {
       width: containerWidth
     });
   }
+  readData(url){
+    fetch(url)
+      .then(function(res) {
+        if (__DEV__) {
+          console.log('res:', res);
+        }
+        //return res.arrayBuffer();
+        return res.json();
+      })
+      .then(function(data) {
+        if (__DEV__) {
+          //data = JSON.stringify(data);
+          console.log('data:', data);
+          console.log('data.length:', data.length);
+          console.log('data[0]:', data[0]);
+        }
+        this.setState({rawData:data});
+
+      }.bind(this));
+ }
 
   render() {
     return (
       <div ref="container">
         <PageHeader>D3.js test page <small>A bar chart</small></PageHeader>
-        <HtmlBarChart {...this.state} />
+        <SVGCanvas {...this.state} />
       </div>
     );
   }

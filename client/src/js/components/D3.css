@@ -1,0 +1,42 @@
+
+.barChart div {
+  font: 10px sans-serif;
+  background-color: steelblue;
+  text-align: right;
+  padding: 3px;
+  margin: 1px;
+  color: white;
+}
+
+
+.axis
+{
+	stroke:#aaa;
+	fill:none;
+	
+}
+.axis path,
+.axis line
+{
+	stroke:#aaa;
+	fill:none;
+
+}
+
+.axis text
+{
+	font-size: 8px;
+}
+
+.ma
+{
+	stroke-width:1px;
+	stroke:'steelblue';
+}
+
+.mainGraph
+{
+	stroke-width:2px;
+	stroke:'steelblue';
+	fill:none;
+}
