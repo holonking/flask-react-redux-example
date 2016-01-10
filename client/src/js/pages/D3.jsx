@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PageHeader } from 'react-bootstrap';
 import ReactFauxDOM from 'react-faux-dom';
 //import d3 from 'd3';
-import SVGCanvas from '../components/Charts';
+import SVGCanvas from '../components/IDP_Charts';
 //import styles from './D3.css';
 
 var log = logger('D3');
