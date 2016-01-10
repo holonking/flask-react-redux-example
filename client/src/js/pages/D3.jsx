@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { PageHeader } from 'react-bootstrap';
 import ReactFauxDOM from 'react-faux-dom';
 import d3 from 'd3';
+import classNames from 'classnames/bind';
+
+//import { PageHeader } from 'react-bootstrap';
 
 import styles from './D3.css';
 
+var c = classNames.bind(styles);
 var log = logger('D3');
 
 
@@ -52,7 +55,10 @@ class HtmlBarChart extends Component {
 export default class D3 extends Component {
   constructor(props) {
     super(props);
-    this.state = {data: [4, 8, 15, 16, 23, 42]};
+    this.state = {
+      data: [4, 8, 15, 16, 23, 42],
+      width: undefined,
+    };
 
     this.handleResize = this.handleResize.bind(this);
   }
@@ -89,7 +95,10 @@ export default class D3 extends Component {
   render() {
     return (
       <div ref="container">
-        <PageHeader>D3.js test page <small>A bar chart</small></PageHeader>
+        <div className={c('header')}>
+          <h1>D3 test</h1>
+          <h2>A bar chart</h2>
+        </div>
         <HtmlBarChart {...this.state} />
       </div>
     );

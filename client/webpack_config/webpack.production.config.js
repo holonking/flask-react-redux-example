@@ -9,11 +9,15 @@ var CompressionPlugin = require("compression-webpack-plugin");
 var commonConfig = require('./common.config');
 
 
-var globalVars = {
-  __NODE__: false,
-};
+var globalVars = _.merge({}, commonConfig.globalVars, {
+  __SERVER__: false,
+});
 
 var productionConfig = {
+  // non-webpack configs
+  globalVars: globalVars,
+
+  // webpack configs
   devtool: 'source-map',
 
   entry: {
@@ -28,7 +32,7 @@ var productionConfig = {
 
   plugins: [
     new webpack.DefinePlugin(globalVars),
-    new ExtractTextPlugin('[name].[chunkhash].css'),
+    //new ExtractTextPlugin('[name].[chunkhash].css'),
 
     //new ChunkManifestPlugin({
     //  filename: 'chunk-manifest.json',

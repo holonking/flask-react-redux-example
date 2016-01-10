@@ -41,6 +41,7 @@ proxy_router.all(/\/.*/, function(req, res) {
 
   var backendUrl = 'http://' + backendHost + ':' + backendPort;
   backendUrl += req.originalUrl;
+  // TODO: lacks error handling here, try...catch won't help
   req.pipe(request(backendUrl)).pipe(res);
 });
 
@@ -54,7 +55,7 @@ app.get('/*', function(req, res) {
   res.set('Content-Encoding', 'gzip');
   res.set('Content-Type', 'text/html');
   res.sendFile(__dirname + '/build/index.html.gz', {
-    maxAge: '3m',
+    maxAge: '5 minutes',
   });
 });
 

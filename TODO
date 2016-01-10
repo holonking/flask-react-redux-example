@@ -5,8 +5,10 @@ Improve navbar's css.
 Done - *Use css modules.
 Markdown on doc page.
 Done - *Long-term cache setup.
-Server-side rendering setup.
+Server-side rendering setup (with static-site-generator-webpack-plugin?).
 Test infrastructure.
+Lint.
+Find out how to use css-modules @value.
 
 Sliding menu (on mobile, with animation).
 Mobile UI with weui.

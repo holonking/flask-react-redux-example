@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Jumbotron, Button } from 'react-bootstrap';
 import { Link } from 'react-router';
+
+//import { Jumbotron, Button } from 'react-bootstrap';
 
 import Hello from '../components/Hello';
 
@@ -8,10 +9,14 @@ import Hello from '../components/Hello';
 export default class Home extends Component {
   render() {
     return (
-      <Jumbotron>
+      <div>
         <h2 style={{marginBottom: '50px'}}><Hello /></h2>
-        <p><Link to="/docs"><Button bsStyle="primary">Learn more</Button></Link></p>
-      </Jumbotron>
+        <p>
+          <Link to="/docs" className="pure-button pure-button-primary">
+            Learn more
+          </Link>
+        </p>
+      </div>
     );
   }
 }
