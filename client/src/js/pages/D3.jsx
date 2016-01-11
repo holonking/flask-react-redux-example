@@ -3,10 +3,11 @@ import { PageHeader } from 'react-bootstrap';
 import ReactFauxDOM from 'react-faux-dom';
 //import d3 from 'd3';
 import SVGCanvas from '../components/IDP_Charts';
+import SecInterp from '../components/SecInterp';
 //import styles from './D3.css';
 
 var log = logger('D3');
-
+SecInterp.test();
 
 
 
@@ -28,6 +29,7 @@ export default class D3 extends Component {
     //read file/////////////////////////////////////////
     var url = 'api/SSV/600000';
     this.readData(url);
+
   }
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
@@ -59,6 +61,11 @@ export default class D3 extends Component {
           console.log('data.length:', data.length);
           console.log('data[0]:', data[0]);
         }
+        console.log('got data, send to secInterp');
+        data=SecInterp.ticksOfSecToCandleOfMin(data);
+        //console.log('data:', data);
+        //console.log('data.length:', data.length);
+        //console.log('data[0]:', data[0]);
         this.setState({rawData:data});
 
       }.bind(this));
@@ -68,7 +75,7 @@ export default class D3 extends Component {
     return (
       <div ref="container">
         <PageHeader>D3.js test page <small>A bar chart</small></PageHeader>
-        <SVGCanvas {...this.state} />
+        //<SVGCanvas {...this.state} />
       </div>
     );
   }

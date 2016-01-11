@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactFauxDOM from 'react-faux-dom';
 import d3 from 'd3';
 import styles from './D3.css';
+import VLib from './VLib.js';
 
 var log = logger('D3');
 
@@ -19,11 +20,10 @@ export class HtmlBarChart extends Component {
       );
     }
     width = Math.min(width, 420);
-	
+
     var x = d3.scale.linear()
         .domain([0, d3.max(data)])
         .range([0, width]);
-    
 
     var node = ReactFauxDOM.createElement('div');
     var chart = d3.select(node);
@@ -50,11 +50,13 @@ export class HtmlBarChart extends Component {
 
 export default class SVGCanvas extends Component{
   componentDidMount(){
-    this.state={dl:1000,dr:1550};
+    this.state={dl:0,dr:100};
   }
 
   render(){
-    //console.log('from SVGCanvas.render() gg');
+
+
+    console.log('from SVGCanvas.render()');
     var data=this.props.rawData;
     var width=this.props.width;
     width = Math.max(width, 420);
@@ -73,36 +75,34 @@ export default class SVGCanvas extends Component{
     if (!width || !data) {
       // render nothing if the width of the containing div is unknown
       //or if the data is unkwon
-        if (!width) log.info("no width");
-        if (!data) log.info("no data");
-        console.log('no width or no data');
       return (
         <div></div>
       );
-    }//end if
-      console.log('has data and width, start drawing');
-    var yMax=d3.max(data,function(d){return d[1];})
-    var yMin=d3.min(data,function(d){return d[1];})
-    var xMin=this.state.dl;
-    var xMax=this.state.dr;
+    }//end if (!width ...
+
+    var canvas=this;
+    
+
 
     var idata=[]
     for( var i=this.state.dl;i<this.state.dr;i++)
     {
-      idata.push(parseFloat(data[i][1]));
-    }// end for i
+      //console.log('data[i].o=',data[i].o)
+      idata.push(parseFloat(data[i].o));
+    }
+
+
+    console.log('data[0]=',data[0]);
+    console.log('idata[0]=',idata[0]);
+    var yMax=d3.max(idata,function(d){return d;})
+    var yMin=d3.min(idata,function(d){return d;})
+    var xMin=this.state.dl;
+    var xMax=this.state.dr;
     
-    idata=[12,13,15,16,19.385,18.14,15,16,17,15.5,12.2,11.1,1.5,2,12,13,15,16,19.385,18.14,15,16,17,15.5,12.2,11.1,1.5,2,12,13,15,16,19.385,18.14,15,16,17,15.5,12.2,11.1,1.5,2];
-    xMin=0;
-    xMax=idata.length;
-    yMin=0;
-    yMax=20;
+    var padding=10;
 
-
-
-
-    var scaleX=d3.scale.linear().domain([xMin, xMax]).range([0, width]);
-    var scaleY=d3.scale.linear().domain([yMin, yMax]).range([height,0]);
+    var scaleX=d3.scale.linear().domain([xMin, xMax]).range([padding, width- padding]);
+    var scaleY=d3.scale.linear().domain([yMin, yMax]).range([height-padding,0]);
 
     console.log('idata.length=',idata.length);
     console.log('idata=',idata);
@@ -110,17 +110,44 @@ export default class SVGCanvas extends Component{
     console.log('scaleY(idata[3])=',scaleY(idata[3]));
 
 
+
+
     console.log('yMin=',yMin);
     console.log('yMax=',yMax);
 
+    this.plotLinear(idata,graphics,width,height,scaleX,scaleY);
 
 
-    this.plotLinear(data,graphics,width,height,scaleX,scaleY);
+    //buttons
+    var bx=30;
+    var by=10;
+    var step=1;
+    graphics.append('rect')
+    .attr('x',bx).attr('y',by).attr('rx',5).attr('ry',5).attr('width',20).attr('height',20)
+    .style({'fill':'white','stroke':'black','stroke-width':1})
+    .on('click',function(d){ canvas.setState({dl:canvas.state.dl+step,dr:canvas.state.dr+step}) });
+    graphics.append('txt').attr('x',bx).attr('y',by).text('+');
+
+    bx=60;
+    by=10;
+    graphics.append('rect')
+    .attr('x',bx).attr('y',by).attr('rx',5).attr('ry',5).attr('width',20).attr('height',20)
+    .style({'fill':'white','stroke':'black','stroke-width':1})
+    .on('click',function(d){ canvas.setState({dl:canvas.state.dl-step,dr:canvas.state.dr-step}) });
+    graphics.append('txt').attr('x',bx).attr('y',by).text('+');
+
+
+
     return node.toReact();
 
-  }//end render()
+  }
+  moveStep(step,length)
+  {
+    if(this.state.dl+step>0 && this.state.dr+step<length)
+      this.setState({dl:canvas.state.dl+step,dr:canvas.state.dr+step});
+  }
 
-  plotLinear(data,g,w,h,iscaleX,iscaleY,icolor,istrokeWidth,iradius){
+  plotLinear(data,g,w,h,iscaleX,iscaleY,icolor,istrokeWidth,iradius,padding){
 
     g.selectAll('path').remove();
     
@@ -128,7 +155,8 @@ export default class SVGCanvas extends Component{
     if(!icolor)icolor='steelblue';
     if(!istrokeWidth)istrokeWidth=2; 
     if(!iradius)iradius=2;
-    var padding=10;
+    if(!padding)padding=10;
+    
 
     var attr={stroke:icolor,fill:"none",'stroke-width':istrokeWidth};
     var scaleX=iscaleX;
@@ -159,12 +187,12 @@ export default class SVGCanvas extends Component{
         console.log('clicked');
       });
 
+    
     //draw circles
     g.selectAll('circle').remove();
 
     var host=this;
 
-    /*
     var circles=g.selectAll('circle')
       .data(data)
       .enter()
@@ -192,7 +220,7 @@ export default class SVGCanvas extends Component{
           //g.select('#textTag').remove();
         })
       .style({stroke:icolor,fill:'white', 'stroke-width':2});
-    */
+      
 
       
 
