@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { PageHeader } from 'react-bootstrap';
 import ReactFauxDOM from 'react-faux-dom';
+import ReactDom from 'react-dom';
 //import d3 from 'd3';
 import SVGCanvas from '../components/IDP_Charts';
 import SecInterp from '../components/SecInterp';
@@ -29,6 +30,10 @@ export default class D3 extends Component {
     //read file/////////////////////////////////////////
     var url = 'api/SSV/600000';
     this.readData(url);
+
+    //draw all you want to draw
+    //this.svgPanelMain=<SVGCanvas {...this.state} />;
+   // ReactDom.render(svgPanelMain,document.getElementById('SVGContainer'));
 
   }
   componentWillUnmount() {
@@ -63,6 +68,7 @@ export default class D3 extends Component {
         }
         console.log('got data, send to secInterp');
         data=SecInterp.ticksOfSecToCandleOfMin(data);
+        console.log('after candlize data[0]:', data[0]);
         //console.log('data:', data);
         //console.log('data.length:', data.length);
         //console.log('data[0]:', data[0]);
@@ -72,10 +78,12 @@ export default class D3 extends Component {
  }
 
   render() {
+    //ReactDom.render(this.svgPanelMain,document.getElementById('SVGContainer'));
     return (
       <div ref="container">
-        <PageHeader>D3.js test page <small>A bar chart</small></PageHeader>
-        //<SVGCanvas {...this.state} />
+        <PageHeader>D3.js test page <small>Single Security Viewer</small></PageHeader>
+        <div id='SVGContainer'>will add svg here</div>
+        <SVGCanvas {...this.state} />
       </div>
     );
   }
