@@ -107,7 +107,7 @@ export default class D3 extends Component {
           <h1>D3 test</h1>
           <h2>single security viewer</h2>
         </div>
-        <HtmlBarChart {...this.state} />
+        <SVGCanvas {...this.state} />
       </div>
     );
   }
