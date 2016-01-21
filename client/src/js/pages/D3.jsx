@@ -10,7 +10,19 @@ import SecInterp from '../components/SecInterp';
 var log = logger('D3');
 SecInterp.test();
 
-
+class t1 extends Component{
+  constructor(props){
+    super(props);
+    log.info('from t1.constrauctor');
+  }
+  componentDidMount(){log.info('from t1.componentDidMount');}
+  render(){
+    log.info('..........t1.draw..............');
+    return(
+      <div>hahah</div>
+    );
+  }
+}
 
 export default class D3 extends Component {
   constructor(props) {
@@ -33,8 +45,8 @@ export default class D3 extends Component {
 
     //draw all you want to draw
     //this.svgPanelMain=<SVGCanvas {...this.state} />;
-   // ReactDom.render(svgPanelMain,document.getElementById('SVGContainer'));
-
+    //var candle=ReactDom.render(<SVGCanvas {...this.state} />,document.getElementById('SVGContainer'));
+  
   }
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);

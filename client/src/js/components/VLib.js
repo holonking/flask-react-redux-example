@@ -3,6 +3,7 @@ var log=logger('VLib');
 export default class VLib{
 	static convertLinearToJSON(data){
 		console.log("converLinearToJSON()");
+		//console.log("@VLib.convertLinearToJSON process data=",data);
 	    var outdata=[]
 	    for(var i=0;i<data.length;i++)
 	    {

@@ -58,21 +58,42 @@ class SVGComponents {
     if(props)this.props=props;
     else this.props={}; 
     this.autoScale=false;
+    this.autoData=false;
+    this.data=[];
+    this.dataExtract=function(d){return d;};
 
     if(props.scaleX)this.scaleX=props.scaleX; else this.scaleX=function(d){return d;}
     if(props.scaleY)this.scaleY=props.scaleY; else this.scaleY=function(d){return d;}
   }
   update(){this.host.setState({});}
   draw(g){
-    console.log("<<<<<<<<from super>>>>>>>>>")
+    log.debug("<<<<<<<<from super>>>>>>>>>")
     if(this.autoScale)
     {
       this.scaleX=this.host.getScaleX();
       this.scaleY=this.host.getScaleY();
-      console.log('this.scaleX=',this.scaleX);
+      //log.debug('this.scaleX=',this.scaleX);
     }//end if
+    this.setData();
+
   }//end draw
+  setData(d){
+    if(!d) d=this.host.getPartialData();
+    if(this.autoData){
+      this.data= this.dataExtract(d);
+    }
+    //log.debug('@SVGComponents.setData(d) postprocess this.data=',this.data);
+    return this;
+  }
   setAutoScale(t){this.autoScale=t;return this;}
+  setAutoData(t){
+    if(typeof(t)=='boolean') this.autoData=t;
+    else if(typeof(t)=='function'){
+      this.autoData=true;
+      this.dataExtract=t;
+    }
+    return this;
+  }
 }
 
 class VCandle extends SVGComponents{
@@ -84,12 +105,12 @@ class VCandle extends SVGComponents{
     this.tag=new VTag(host);
     this.mIndex=-1;
   }//end constructor
-  setData(d){
-    this.data=d;
-  }
+
   //@VCandle.draw(g)
   draw(g)
   {
+    log.info('....................VCandle.draw..................');
+    super.draw(g);
     var gap=2;
     var barWidth=Math.min(this.host.getWidth()/this.data.length-gap,30);
 
@@ -106,7 +127,7 @@ class VCandle extends SVGComponents{
 
     var thisCandle=this;
 
-    console.log('@candle.draw data[0]=',this.data[0]);
+    //log.debug('@candle.draw data[0]=',this.data[0]);
 
     var thisTag=this.tag;
     var thisCandle=this;
@@ -124,8 +145,15 @@ class VCandle extends SVGComponents{
             thisTag.setPos(x,y);
             thisCandle.update();
         };
-    var onMouseOut=function(d){thisTag.lines=[];
+    var onMouseOut=function(d){
+            thisTag.lines=[];
+            thisCandle.mIndex=-1;
             thisCandle.update();};
+    var onMouseOverStyle=function(d,i){
+            if(thisCandle.mIndex==i)
+              return 2;
+            else return 1;
+        };
 
     var lines=candleChart.selectAll('line')
       .data(thisCandle.data)
@@ -137,6 +165,7 @@ class VCandle extends SVGComponents{
       .attr('y2',function(d){return scaleY(d.l);})
       .style('fill',function(d){if(d.o<d.c) return 'white'; else return 'steelblue';})
       .style('stroke','steelblue')
+      .style('stroke-width',onMouseOverStyle)
       .on('mouseover',function(d,i){onMouseOver(d,i);})
       .on('mouseout',function(d,i){onMouseOut(d,i);});
 
@@ -147,9 +176,10 @@ class VCandle extends SVGComponents{
       .attr('x',function(d,i){return scaleX(i)-(barWidth/2);})
       .attr('y',function(d){ if(d.o>d.c) return scaleY(d.o); else return scaleY(d.c)})
       .attr('width',barWidth)
-      .attr('height',function(d){return Math.abs(scaleY(d.o)-scaleY(d.c))})
+      .attr('height',function(d){return Math.max(1,Math.abs(scaleY(d.o)-scaleY(d.c)))})
       .style('fill',function(d){if(d.o<d.c) return 'white'; else return 'steelblue';})
       .style('stroke','steelblue')
+      .style('stroke-width',onMouseOverStyle)
       .on('mouseover',function(d,i){onMouseOver(d,i);})
       .on('mouseout',function(d,i){onMouseOut(d,i);});
       
@@ -183,12 +213,6 @@ class VPoly extends SVGComponents{
     if(typeof(props)!='undefined')
         if(props.showData)this.showData=true;
   }
-  setData(data)
-  {
-    console.log('setData');
-    this.data=data;
-    return this;
-  }
   setScaleX(d){this.scaleX=d; return this;}
   setScaleY(d){this.scaleY=d; return this;}
   setShowData(b){
@@ -199,12 +223,16 @@ class VPoly extends SVGComponents{
     this.color=c;
     return this;
   }
+  //@VPoly.draw
   draw(graphics)
   {
     super.draw(graphics);
-    console.log('....................VPoly.draw..................');
-    console.log('this.data[0]=',this.data[0]);
-    //console.log('this.scaleX=',this.scaleX);
+    log.debug('....................VPoly.draw..................');
+    //log.debug('@VPoly.draw postprocess this.data=',this.data);
+    //log.debug('@VPoly.draw this.data[0]=',this.data[0]);
+    //log.debug('@VPoly.draw this.data[0].y=',this.data[0].y);
+    //log.debug('@VPoly.draw type of y is ',typeof(this.data[0].y));
+    //log.debug('this.scaleX=',this.scaleX);
     if(this.data==null) return 0;       
     var g=graphics.append('g');
     var data=this.data;
@@ -212,7 +240,21 @@ class VPoly extends SVGComponents{
     var scaleY=this.scaleY;
     var attr={'stroke':this.color,fill:'none'};
 
-    var lines=d3.svg.line().x(function(d){return scaleX(d.x);}).y(function(d){return scaleY(d.y);});
+    var lines=d3.svg.line()
+                    .x(function(d){
+                      //var outVal=scaleX(d.x);
+                      //log.debug('@VPoly.draw.loop X=',d.x);
+                      //log.debug('@VPoly.draw.loop outVal X=',outVal);
+                      //return outVal;
+                      return scaleX(d.x);
+                    })
+                    .y(function(d){
+                      var outVal=scaleY(d.y);
+                      //log.debug('@VPoly.draw.loop Y=',d.y);
+                      //log.debug('@VPoly.draw.loop outVal Y=',outVal);
+                      return outVal;
+                      //return scaleY(d.y);
+                    });
     var path=g.append('path').datum(data)
             .attr("d",lines)
             .attr(attr);
@@ -271,7 +313,7 @@ class VTag extends SVGComponents{
 
   }
   addLine(d){
-    console.log('adding ',d,' to lines');
+    log.debug('adding ',d,' to lines');
     this.lines.push(d);
     return this;
   }
@@ -288,7 +330,7 @@ class VTag extends SVGComponents{
   draw(g)
   {
     if(this.lines.length<=0) return 0;
-    console.log('............VTag.draw().................');
+    log.debug('............VTag.draw().................');
     var r=5;
     var h=this.fontSize*this.lines.length*1.2+(r*2);
     var w=this.getLongestestLine()*this.fontSize+r;
@@ -306,8 +348,8 @@ class VTag extends SVGComponents{
       .attr('ry',r)
       .style('fill','#999');
 
-    console.log('this.lines.length=',this.lines.length);
-    console.log('this.lines[0]=',this.lines[0]);
+    log.debug('this.lines.length=',this.lines.length);
+    log.debug('this.lines[0]=',this.lines[0]);
     
     var thisTag=this;
     
@@ -318,7 +360,7 @@ class VTag extends SVGComponents{
       .attr('x',thisTag.x+r)
       .attr('y',function(d,i){
           var posY=thisTag.y-h+r+((i+1)*thisTag.fontSize*1.2);
-          console.log('posY=',posY);
+          log.debug('posY=',posY);
           return posY;
         })
       .text(function(d,i){return thisTag.lines[i];})
@@ -334,17 +376,17 @@ class VTag extends SVGComponents{
 class VButton extends SVGComponents{
   draw(g){
     //buttons
-    console.log('....................VButton.draw..................');
-    console.log('this.fill=',this.fill);
-    console.log('this.mouseOver=',this.mouseOver);
-    console.log('this.host=',this.host);
+    log.debug('....................VButton.draw..................');
+    log.debug('this.fill=',this.fill);
+    log.debug('this.mouseOver=',this.mouseOver);
+    log.debug('this.host=',this.host);
 
     if(!this.props.x)this.props.x=30;
     if(!this.props.y)this.props.y=50;
     if(!this.props.text)this.props.text='T';
-    if(!this.props.onClick)this.props.onClick=function(d){console.log('button clicked');};
-    if(!this.props.onMouseDown)this.props.onMouseDown=function(d){console.log('button mosueDown');};
-    if(!this.props.onMouseUp)this.props.onMouseUp=function(d){console.log('button mosueUp');};
+    if(!this.props.onClick)this.props.onClick=function(d){log.debug('button clicked');};
+    if(!this.props.onMouseDown)this.props.onMouseDown=function(d){log.debug('button mosueDown');};
+    if(!this.props.onMouseUp)this.props.onMouseUp=function(d){log.debug('button mosueUp');};
 
     var width=this.props.text.length*10+10;
     //var step=1;
@@ -377,7 +419,13 @@ class VButton extends SVGComponents{
 
 export default class SVGCanvas extends Component{
   //@SVGCanvas.componentDidMount
+  constructor(props){
+    super(props);
+    log.info('SVGCanvas.constructor');
+  }
+  //@SVGCanvas.componentDidMount
   componentDidMount(){
+    log.info('SVGCanvas.componentDidMount');
     //the drawing list, will be added to automatically fro msvgComponents
     this.comps=[];
     this.dataComps=[];
@@ -388,37 +436,50 @@ export default class SVGCanvas extends Component{
     this.scaleYMin=function(d){return d.l};
     this.margin={left:20,right:20,top:20,bottom:20};
 
+    log.info('SVGCanvas size=',this.width,",",this.height);
     
     //add things you want to draw
- 
-
-
-
     this.gCandle=new VCandle(this);
-    this.gCandle.setAutoScale(true);
+    this.gCandle.setAutoScale(true).setAutoData(true);
 
-    this.gMain=this.addPoly(this).setShowData(true).setAutoScale(true);
-    this.gMA5=this.addPoly(this).setShowData(false).setAutoScale(true).setColor('green');
-    this.gMA12=this.addPoly(this).setShowData(false).setAutoScale(true).setColor('purple');
+    //this.gMain=this.addPoly(this).setShowData(true).setAutoScale(true);
+    var thisCanvas=this;
+    var extract5=function(d){
+      var data=thisCanvas.getPartialData(function(d){return parseFloat(d.o);})
+      log.info('MA5 1st extracted data[20]=',data[0]);
+      data=VLib.getMA(data,5);
+      log.info('MA5 2nd extracted data[20]=',data[0]);
+      var jdata=VLib.convertLinearToJSON(data);
+      log.info('MA5 3nd  postprocess extracted jdata[20]=',jdata[0]);
+      return jdata;
+    };
+    var extract12=function(d){
+      var data=thisCanvas.getPartialData(function(d){return parseFloat(d.o);})
+      data=VLib.getMA(data,12);
+      return VLib.convertLinearToJSON(data);
+    };
+    this.gMA5=this.addPoly(this).setShowData(false).setAutoScale(true).setColor('green').setAutoData(extract5);
+    this.gMA12=this.addPoly(this).setShowData(false).setAutoScale(true).setColor('purple').setAutoData(extract12);
 
 
-
-
+    //add a demo multi-line tag
     var tag=new VTag(this);
     tag.addLine("this is a demo");
     tag.addLine("of the multi-line");
     tag.addLine("text tag");
     tag.setPos(550,260);
    
+
+   //add buttons to pan and zoom data
     var thisCanvas=this;
-    var callback1=function(){
-        thisCanvs.moveStep(-1);
-    };
-    var callback2=function(){
-        thisCanvas.moveStep(1);
-    };
+    var callback1=function(){thisCanvs.moveStep(-1);};
+    var callback2=function(){thisCanvas.moveStep(1);};
+    var callback3=function(){thisCanvas.zoomStep(1);};
+    var callback4=function(){thisCanvas.zoomStep(-1);};
     this.b1=new VButton(this,{onMouseDown:callback1,x:5,y:30,text:'<'});
     this.b2=new VButton(this,{onMouseDown:callback2,x:30,y:30,text:'>'});
+    this.b3=new VButton(this,{onMouseDown:callback3,x:55,y:30,text:'+'});
+    this.b4=new VButton(this,{onMouseDown:callback4,x:80,y:30,text:'-'});
 
   }
   addPanel(h){if(h) return new VPanel(h); return new VPanel(this);}
@@ -432,11 +493,11 @@ export default class SVGCanvas extends Component{
   //this is for pan and zoom, do not display all data at once
   getPartialData(f){
     var data=this.props.rawData;
-    //console.logy('this.props.rawData=',this.props.rawData);
+    //log.debugy('this.props.rawData=',this.props.rawData);
     var idata=[];
     for( var i=this.state.dl;i<this.state.dr;i++)
     {
-      //console.log('data[i].o=',data[i].o)
+      //log.debug('data[i].o=',data[i].o)
       //idata.push(parseFloat(data[i].o));
       if(!f) idata.push(data[i]);
       else if(typeof(f)=='function') idata.push(f(data[i]));
@@ -444,7 +505,11 @@ export default class SVGCanvas extends Component{
     }
     return idata;
   }
-  getWidth(){return Math.max(this.props.width, 420);}
+  componentWillRecieveData(){
+    log.info('from component will recieve data');
+    log.info('this.props.rawData=',this.props.rawData);
+  }
+  getWidth(){return Math.max(this.width, 420);}
   getHeight(){return this.height;}
   getMargin(){return {top:5,right:5,left:5,bottom:5};}
   getScaleX(){
@@ -467,7 +532,7 @@ export default class SVGCanvas extends Component{
     if(typeof(this.scaleYMin)=='function')fscaleYMin=this.scaleYMin; else fscaleYMax=function(d){return d;};
     var yMax=d3.max(idata,fscaleYMax);
     var yMin=d3.min(idata,fscaleYMin);
-    console.log("@ getScaleY ymax=",yMax," ymin=",yMin);
+    //log.debug("@ getScaleY ymax=",yMax," ymin=",yMin);
     var scaleY=d3.scale.linear().domain([yMin, yMax]).range([height-this.margin.bottom,this.margin.top]);
     return scaleY;
   }
@@ -475,8 +540,8 @@ export default class SVGCanvas extends Component{
   //@SVGCanvas.render()
   render(){
 
-    log.debug('-------from SVGCanvas.render()-------');
-    console.log('this.comps=',this.comps);
+    log.info('-------from SVGCanvas.render()-------');
+    //log.debug('this.comps=',this.comps);
     var width=this.getWidth();
     var data=this.props.rawData;
     var height=this.getHeight();
@@ -494,24 +559,25 @@ export default class SVGCanvas extends Component{
         .attr('height',height+margin.top+margin.bottom)
         .classed(styles.svg,true);
 
+    /*
     /////////////////////
     //prepare data
     /////////////////////
-    //console.log('partial data=',this.getPartialData());
+    //log.debug('partial data=',this.getPartialData());
     var pd=this.getPartialData(function(d){return parseFloat(d.o);});
-    //console.log('@ canvas.draw pd=',pd);
+    //log.debug('@ canvas.draw pd=',pd);
     var jpd=VLib.convertLinearToJSON(pd);
-    this.gMain.setData(jpd);
+    //this.gMain.setData(jpd);
     var pdMA5=VLib.convertLinearToJSON(VLib.getMA(pd,5));
     var pdMA12=VLib.convertLinearToJSON(VLib.getMA(pd,12));
-    console.log('jpd.length=',jpd.length);
-    console.log('pdMA5.length=',pdMA5.length);
-    console.log('jpd[0]=',jpd[0]);
-    console.log('pdMA5[0]=',pdMA5[0]);
+    log.debug('jpd.length=',jpd.length);
+    log.debug('pdMA5.length=',pdMA5.length);
+    log.debug('jpd[0]=',jpd[0]);
+    log.debug('pdMA5[0]=',pdMA5[0]);
     this.gMA5.setData(pdMA5);
-    this.gMA12.setData(pdMA12);
-    this.gCandle.setData(this.getPartialData());
-
+    this.gMA12.setData(pdMA12);*/
+    //this.gCandle.setData(this.getPartialData());
+    
 
 
     //draw each components
@@ -552,7 +618,17 @@ export default class SVGCanvas extends Component{
     }
   }//end moveStep
 
-  
+  //zoom in and out of the data
+  //@SVGCanvas.zoomStep
+  zoomStep(step){
+    if(this.props.rawData)
+    {
+      var length=this.props.rawData.length;
+      if(this.state.dl+step>0 & this.state.dr+step<length)
+        this.setState({dl:this.state.dl+step,dr:this.state.dr-step});
+      log.info('moved to the edge');
+    }//end if
+  }//end zoomStep
 
 
 }
