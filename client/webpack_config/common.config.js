@@ -12,23 +12,32 @@ var globalVars = {
 };
 
 module.exports = {
+  // non-webpack configs
+  globalVars: globalVars,
+
+  // webpack configs
   entry: {
     runtime: [],
     vendor: [
       'es5-shim/es5-shim',
       'babel-polyfill',
       'isomorphic-fetch',
+
       'react',
       'react-dom',
       'react-router',
       'react-redux',
+      'react-motion',
       'redux',
       'redux-thunk',
       'redux-simple-router',
       'history',
       'classnames',
       'loglevel',
-      'bootstrap/dist/css/bootstrap.min.css',
+
+      //'bootstrap/dist/css/bootstrap.min.css',
+      'purecss/build/pure.css',
+      'purecss/build/grids-responsive.css',
     ],
     d3: [
       'd3',
@@ -40,7 +49,8 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.DefinePlugin(globalVars),
+    //new webpack.DefinePlugin(globalVars),
+
     // The NamedModulesPlugin changes the module id format from number into 
     // file name, so we can get a more 'stable' vendor/d3 chunk.
     // See https://github.com/webpack/webpack/issues/1315.
@@ -73,22 +83,22 @@ module.exports = {
       {
         test: /\.css$/,
         include: path.join(__dirname, '../src/js/'),
-        //loaders: [
-        //  'style',
-        //  'css?modules&importLoaders=1' +
-        //    '&localIdentName=[name]__[local]___[hash:base64:5]'
-        //],
-        loader: ExtractTextPlugin.extract(
+        loaders: [
           'style',
           'css?modules&importLoaders=1' +
             '&localIdentName=[name]__[local]___[hash:base64:5]'
-        ),
+        ],
+        //loader: ExtractTextPlugin.extract(
+        //  'style',
+        //  'css?modules&importLoaders=1' +
+        //    '&localIdentName=[name]__[local]___[hash:base64:5]'
+        //),
       },
       {
         test: /\.css$/,
         exclude: path.join(__dirname, '../src/js/'),
-        //loaders: ['style', 'css'],
-        loader: ExtractTextPlugin.extract('style', 'css'),
+        loaders: ['style', 'css'],
+        //loader: ExtractTextPlugin.extract('style', 'css'),
       },
       {
         test: /\.png$|\.jpe?g$/,

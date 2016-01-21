@@ -2,6 +2,7 @@ var fs = require('fs');
 var stream = require('stream');
 var glob = require('glob');
 var del = require('del');
+var mkdirp = require('mkdirp');
 var gzip = require('zlib').createGzip();
 var extend = require('lodash/object/extend');
 
@@ -14,23 +15,18 @@ var devConfig = require('./webpack_config/webpack.dev.config.js');
 var productionConfig = require('./webpack_config/webpack.production.config.js');
 
 
-//gulp.task('clean-all', function(cb) {
-//  del([
-//    'build/**/*',
-//  ], cb);
-//});
-
-gulp.task('clean-client', function(cb) {
+gulp.task('clean-client', function() {
   return del([
     'build/static/*',
+    'build/index.html*',
   ]);
 });
    
-gulp.task('copy-index', function() {
-  var stream = gulp.src('./src/html/index.html')
-    .pipe(gulp.dest('./build/'));
-  return stream;
-});
+//gulp.task('copy-index', function() {
+//  var stream = gulp.src('./src/html/index.html')
+//    .pipe(gulp.dest('./build/'));
+//  return stream;
+//});
 
 gulp.task('build-client', ['clean-client'], function(cb) {
   var compiler = webpack(productionConfig);
@@ -74,14 +70,33 @@ gulp.task('gen-index', ['build-client'], function(cb) {
 
 gulp.task('build', ['build-client', 'gen-index']);
 
-gulp.task('dev', function() {
+
+gulp.task('clean-dev', function() {
+  return del([
+    'build/_dev/*',
+  ]);
+});
+
+gulp.task('dev', ['clean-dev'], function() {
   var port = devConfig.devServerPort;
   var host = devConfig.devServerHost;
   var backendPort = devConfig.backendServerPort;
   var backendHost = devConfig.backendServerHost;
 
+  var index = fs.readFileSync('./src/html/index.html.dev', 'utf-8');
+  var template = handlebars.compile(index);
+  var globalVars = devConfig.globalVars;
+  if (globalVars.__WEINRE__) {
+    var weinre = `<script src=${globalVars.__WEINRE__}></script>`;
+    var res = template({weinre_script: weinre});
+  } else {
+    var res = template({weinre_script: ''});
+  }
+  mkdirp.sync('./build/_dev/');
+  fs.writeFileSync('./build/_dev/index.html', res);
+
   var server = new WebpackDevServer(webpack(devConfig), {
-    contentBase: './src/html',
+    contentBase: './build/_dev/',
     publicPath: devConfig.output.publicPath,
     hot: true,
     historyApiFallback: true,

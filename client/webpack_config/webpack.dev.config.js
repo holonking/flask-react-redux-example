@@ -5,9 +5,9 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var commonConfig = require('./common.config');
 
 
-var globalVars = {
-  __NODE__: false,
-};
+var globalVars = _.merge({}, commonConfig.globalVars, {
+  __SERVER__: false,
+});
 
 var devServerPort = 3000;
 var devServerHost = '0.0.0.0';
@@ -15,12 +15,16 @@ var backendServerPort = 3001;
 var backendServerHost = '127.0.0.1';
 
 var devConfig = {
-  devtool: 'eval-source-map',
+  // non-webpack configs
+  globalVars: globalVars,
 
   devServerPort: devServerPort,
   devServerHost: devServerHost,
   backendServerPort: backendServerPort,
   backendServerHost: backendServerHost,
+
+  // webpack configs
+  devtool: 'eval-source-map',
 
   entry: {
     app: [
@@ -38,7 +42,7 @@ var devConfig = {
 
   plugins: [
     new webpack.DefinePlugin(globalVars),
-    new ExtractTextPlugin('[name].css'),
+    //new ExtractTextPlugin('[name].css'),
 
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
@@ -66,9 +70,5 @@ var config = _.merge({}, commonConfig, devConfig, function(a, b) {
 module.exports = config;
 
 
-//module.exports = {
-//  getConfig: function () {
-//      return _merge({}, ..) 
-//  }
-//}
+
 

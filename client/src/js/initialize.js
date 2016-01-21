@@ -45,9 +45,9 @@ function initialize() {
   if (__DEV__) {
     console.warn('FRONTEND_DEBUG:', __DEV__);
     if (__WEINRE__) {
-      var script = document.createElement('script');
-      script.src = __WEINRE__;
-      document.getElementsByTagName('head')[0].appendChild(script);
+      //var script = document.createElement('script');
+      //script.src = __WEINRE__;
+      //document.getElementsByTagName('head')[0].appendChild(script);
       console.warn('WEINRE_DEBUG:', __WEINRE__);
     }
   }

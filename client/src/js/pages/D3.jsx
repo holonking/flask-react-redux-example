@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
-import { PageHeader } from 'react-bootstrap';
 import ReactFauxDOM from 'react-faux-dom';
 import ReactDom from 'react-dom';
 //import d3 from 'd3';
 import SVGCanvas from '../components/IDP_Charts';
 import SecInterp from '../components/SecInterp';
 //import styles from './D3.css';
+import d3 from 'd3';
+import classNames from 'classnames/bind';
 
+//import { PageHeader } from 'react-bootstrap';
+import styles from './D3.css';
+
+var c = classNames.bind(styles);
 var log = logger('D3');
 SecInterp.test();
 
@@ -27,7 +32,11 @@ class t1 extends Component{
 export default class D3 extends Component {
   constructor(props) {
     super(props);
-    //this.state = {data: [4, 8, 15, 16, 23, 42]};
+    this.state = {
+      data: [4, 8, 15, 16, 23, 42],
+      width: undefined,
+    };
+
     this.handleResize = this.handleResize.bind(this);
   }
   componentDidMount() {
@@ -93,9 +102,12 @@ export default class D3 extends Component {
     //ReactDom.render(this.svgPanelMain,document.getElementById('SVGContainer'));
     return (
       <div ref="container">
-        <PageHeader>D3.js test page <small>Single Security Viewer</small></PageHeader>
-        <div id='SVGContainer'>will add svg here</div>
-        <SVGCanvas {...this.state} />
+
+        <div className={c('header')}>
+          <h1>D3 test</h1>
+          <h2>single security viewer</h2>
+        </div>
+        <HtmlBarChart {...this.state} />
       </div>
     );
   }
