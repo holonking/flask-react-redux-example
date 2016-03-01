@@ -28,7 +28,7 @@ export default class SecInterp{
 				{
 					//mins are different
 					close=rPrice;
-					outData.push({o:open,h:high,l:low,c:close,v:totalVol,t:rTime[0]+":"+rTime[1]});
+					outData.push({o:parseFloat(open),h:parseFloat(high),l:parseFloat(low),c:parseFloat(close),v:parseInt(totalVol),t:rTime[0]+":"+rTime[1]});
 					totalVol=0;
 					if(i+1<data.length){
 						high=low=open=data[i+1][1];

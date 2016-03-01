@@ -1,0 +1,23 @@
+export default class SVGComponent extends Component
+{
+	constructor(props){
+		//to do: constructor
+	}
+
+	componentDidMount(){
+		//to do: when component is first mounted
+	}
+
+	componentWillUpdate(){
+		//determin if the react component should update
+		//return true if decides to update
+		return true;
+	}
+
+	render(){
+		//render the component
+		//return an html element
+		return <div></div>
+	}
+	
+}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactFauxDOM from 'react-faux-dom';
+import ReactDom from 'react-dom';
 import d3 from 'd3';
 import styles from './D3.css';
 import VLib from './VLib.js';
@@ -11,7 +12,7 @@ export class HtmlBarChart extends Component {
   render() {
     var data = this.props.data;
     var width = this.props.width;
-    log.debug('data:', data, 'width:', width);
+    //log.debug('data:', data, 'width:', width);
 
     if (!width) {
       // render nothing if the width of the containing div is unknown
@@ -41,7 +42,6 @@ export class HtmlBarChart extends Component {
     log.debug('bar:', bar);
     log.debug('barUpdate:', barUpdate);
 
-    log.info('Drew barchart with', data, ', width:', width);
 
     return node.toReact();
   }
@@ -49,17 +49,22 @@ export class HtmlBarChart extends Component {
 
 class SVGComponents {
   constructor(host,props){
+    //log.debug('/////////SVGComponents.construcor/////////');
     if(!props) props={};
+    this.props=props;
     host.addComponent(this);
-    log.debug('/////////SVGComponents.construcor/////////');
+
+    //get data from host, and set the data if the data exists
+    var data=host.getData();
+    if(data) this.setData(data);
+    this.partialData=false;
     this.host=host;
     this.mouseOver=false;
     this.mosueDown=false;
-    if(props)this.props=props;
-    else this.props={}; 
     this.autoScale=false;
-    this.autoData=false;
-    this.data=[];
+    //if autoData=true, draw() method will autmatically fetch data from canvas
+    //if autoData=false, you can customize your data by asigning data by SVGComponent.data=someData;
+    this.autoData=true; 
     this.dataExtract=function(d){return d;};
 
     if(props.scaleX)this.scaleX=props.scaleX; else this.scaleX=function(d){return d;}
@@ -67,96 +72,140 @@ class SVGComponents {
   }
   update(){this.host.setState({});}
   draw(g){
-    log.debug("<<<<<<<<from super>>>>>>>>>")
+    console.log("<<<<<<<<from super>>>>>>>>>")
     if(this.autoScale)
     {
       this.scaleX=this.host.getScaleX();
       this.scaleY=this.host.getScaleY();
       //log.debug('this.scaleX=',this.scaleX);
     }//end if
-    this.setData();
 
+    if(this.autoData)
+    {
+      this.data=this.dataExtract(this.host.getData());
+    }
+    else if(this.rawData,this.autoScale,this.host.partialData){
+        console.log('021950 cutting data.......')
+        this.data=this.host.getPartialData(this.rawData);
+      }
+    else this.data=this.rawData;
+    if(this.rawData)console.log('021950 SVGComponent.rawData[0]=',this.rawData[0]);
+    console.log('021950 SVGComponent.draw data[0]=',this.data[0]);
+    console.log('021950 SVGComponent.draw rawData[0]=',this.data[0]);
+
+    var data=this.data;
+    if(!data) return;
+    if(!this.scaleX(1)) return;
+    if(!this.scaleY(1)) return;
   }//end draw
-  setData(d){
-    if(!d) d=this.host.getPartialData();
-    if(this.autoData){
-      this.data= this.dataExtract(d);
-    }
-    //log.debug('@SVGComponents.setData(d) postprocess this.data=',this.data);
-    return this;
-  }
   setAutoScale(t){this.autoScale=t;return this;}
-  setAutoData(t){
-    if(typeof(t)=='boolean') this.autoData=t;
-    else if(typeof(t)=='function'){
-      this.autoData=true;
-      this.dataExtract=t;
-    }
+  setData(d){
+    console.log('021950 SVGComponent.setData(d) d[0]=',d[0]);
+    this.rawData=d;
+    this.autoData=false;
+    this.update();
+  }
+  setPartialData(){this.partialData=true;}
+  setDataExtract(f){
+    this.dataExtract=f;
     return this;
   }
 }
+class VRect extends SVGComponents{
+  constructor(host,props){
+    super(host,props);
+    //console.log('from VRect.constructor');
+    this.x=0;
+    this.y=0
+    this.width=0;
+    this.height=0;
+    if(props)
+        if(props.x)this.x=props.x;
+        if(props.y)this.y=props.y;
+        if(props.w)this.width=props.w;
+        if(props.h)this.height=props.h;
 
+  }
+  draw(g){
+    //console.log('from VRect.draw x=',this.x,' y=',this.y,' w=',this.width);
+    var rect= g.append('rect')
+                .attr('x',this.scaleX(this.x))
+                .attr('y',this.scaleY(this.y))
+                .attr('width',this.width)
+                .attr('height',this.height)
+                .style('fill','none')
+                .style('stroke','steelblue');
+
+  }
+}
 class VCandle extends SVGComponents{
   constructor(host,props){
     super(host,props);
-    if(!props)props={};
-    if(props.data) this.data=props.data; else this.data=[{o:17,h:20.5,l:10,c:18,v:100},{o:18,h:28.5,l:8,c:15,v:50}];
-    if(props.color)this.color=props.color; else this.color='steelblue';
+    if(this.props.color)this.color=this.props.color; else this.color='steelblue';
     this.tag=new VTag(host);
     this.mIndex=-1;
-  }//end constructor
-
-  //@VCandle.draw(g)
-  draw(g)
-  {
-    log.info('....................VCandle.draw..................');
-    super.draw(g);
-    var gap=2;
-    var barWidth=Math.min(this.host.getWidth()/this.data.length-gap,30);
-
-
-    var candleChart=g.append('g');
-    if(this.autoScale)
-    {
-      this.scaleX=this.host.getScaleX();
-      this.scaleY=this.host.getScaleY();
-    }
-    var scaleX=this.scaleX;
-    var scaleY=this.scaleY;
-    
 
     var thisCandle=this;
-
-    //log.debug('@candle.draw data[0]=',this.data[0]);
-
-    var thisTag=this.tag;
-    var thisCandle=this;
-    var onMouseOver=function(d,i){ 
+    this.onMouseOver=function(d,i){ 
             log.info('mouse over candle[',i,']');
             thisCandle.mIndex=i;
-            thisTag
+            /*
+            thisCandle.tag
               .addLine('date :'+d.d)
               .addLine('open: '+d.o)
               .addLine('hight: '+d.h)
               .addLine('low: '+d.l)
               .addLine('close: '+d.c);
+
             var x=thisCandle.scaleX(i);
             var y=thisCandle.scaleY(Math.max(d.o,d.c))-10
-            thisTag.setPos(x,y);
+            thisCandle.tag.setPos(x,y);
+            */
             thisCandle.update();
         };
-    var onMouseOut=function(d){
-            thisTag.lines=[];
+    this.onMouseOut=function(d){
+            //thisTag.lines=[];
             thisCandle.mIndex=-1;
             thisCandle.update();};
-    var onMouseOverStyle=function(d,i){
+    this.onMouseOverStyle=function(d,i){
             if(thisCandle.mIndex==i)
               return 2;
             else return 1;
         };
 
+  }//end constructor
+
+  //@VCandle.draw(g)
+  draw(g)
+  {
+    super.draw(g);
+
+
+    log.info('....................VCandle.draw..................');
+    var data=this.data;
+    var gap=1;
+    var barWidth=Math.min(this.host.getWidth()/data.length-gap,30);
+
+
+    var candleChart=g.append('g');
+    
+    var scaleX=this.scaleX;
+    var scaleY=this.scaleY;
+    
+    console.log('@candle.draw  data[0]=',data[0]);
+    console.log('scaleX=',scaleX);
+    console.log('this.autoscale=',this.autoScale);
+    console.log('x=',1,'scaleX(x)=',scaleX(1));
+
+    var thisCandle=this;
+    var thisTag=this.tag;
+    
+
+    
+   
+
     var lines=candleChart.selectAll('line')
-      .data(thisCandle.data)
+      .data(data)
       .enter()
       .append('line')
       .attr('x1',function(d,i){return scaleX(i);})
@@ -165,12 +214,12 @@ class VCandle extends SVGComponents{
       .attr('y2',function(d){return scaleY(d.l);})
       .style('fill',function(d){if(d.o<d.c) return 'white'; else return 'steelblue';})
       .style('stroke','steelblue')
-      .style('stroke-width',onMouseOverStyle)
-      .on('mouseover',function(d,i){onMouseOver(d,i);})
-      .on('mouseout',function(d,i){onMouseOut(d,i);});
+      .style('stroke-width',this.onMouseOverStyle)
+      .on('mouseover',this.nMouseOver)
+      .on('mouseout',this.onMouseOut);
 
     var rects=candleChart.selectAll('rect')
-      .data(thisCandle.data)
+      .data(data)
       .enter()
       .append('rect')
       .attr('x',function(d,i){return scaleX(i)-(barWidth/2);})
@@ -179,13 +228,12 @@ class VCandle extends SVGComponents{
       .attr('height',function(d){return Math.max(1,Math.abs(scaleY(d.o)-scaleY(d.c)))})
       .style('fill',function(d){if(d.o<d.c) return 'white'; else return 'steelblue';})
       .style('stroke','steelblue')
-      .style('stroke-width',onMouseOverStyle)
-      .on('mouseover',function(d,i){onMouseOver(d,i);})
-      .on('mouseout',function(d,i){onMouseOut(d,i);});
+      .style('stroke-width',this.onMouseOverStyle)
+      .on('mouseover',this.onMouseOver)
+      .on('mouseout',this.onMouseOut);
       
 
   }
-
 }
 
 class VPoly extends SVGComponents{
@@ -228,12 +276,7 @@ class VPoly extends SVGComponents{
   {
     super.draw(graphics);
     log.debug('....................VPoly.draw..................');
-    //log.debug('@VPoly.draw postprocess this.data=',this.data);
-    //log.debug('@VPoly.draw this.data[0]=',this.data[0]);
-    //log.debug('@VPoly.draw this.data[0].y=',this.data[0].y);
-    //log.debug('@VPoly.draw type of y is ',typeof(this.data[0].y));
-    //log.debug('this.scaleX=',this.scaleX);
-    if(this.data==null) return 0;       
+    console.log('021950 VPoly.draw data.length=',this.data.length,' data[0]=',this.data[0]);
     var g=graphics.append('g');
     var data=this.data;
     var scaleX=this.scaleX;
@@ -241,19 +284,13 @@ class VPoly extends SVGComponents{
     var attr={'stroke':this.color,fill:'none'};
 
     var lines=d3.svg.line()
-                    .x(function(d){
-                      //var outVal=scaleX(d.x);
-                      //log.debug('@VPoly.draw.loop X=',d.x);
-                      //log.debug('@VPoly.draw.loop outVal X=',outVal);
-                      //return outVal;
-                      return scaleX(d.x);
+                    .x(function(d,i){
+                      if(d.x)return scaleX(d.x);
+                      return scaleX(i);
                     })
                     .y(function(d){
                       var outVal=scaleY(d.y);
-                      //log.debug('@VPoly.draw.loop Y=',d.y);
-                      //log.debug('@VPoly.draw.loop outVal Y=',outVal);
                       return outVal;
-                      //return scaleY(d.y);
                     });
     var path=g.append('path').datum(data)
             .attr("d",lines)
@@ -374,6 +411,14 @@ class VTag extends SVGComponents{
 //var buttonInstance=new VButton(graphics,props);
 //var buttonInstance.draw();
 class VButton extends SVGComponents{
+  width(w){
+    if(!w){
+      if (this.width) return this.width;
+    }//end if !w
+    else{
+      this.width=w;
+    }//end else !w
+  }
   draw(g){
     //buttons
     log.debug('....................VButton.draw..................');
@@ -388,7 +433,10 @@ class VButton extends SVGComponents{
     if(!this.props.onMouseDown)this.props.onMouseDown=function(d){log.debug('button mosueDown');};
     if(!this.props.onMouseUp)this.props.onMouseUp=function(d){log.debug('button mosueUp');};
 
-    var width=this.props.text.length*10+10;
+    var width;
+    if(!this.width)
+      width=this.props.text.length*10+10;
+    else width=this.width;
     //var step=1;
     var host=this.host;
     var thisButton=this;
@@ -422,107 +470,158 @@ export default class SVGCanvas extends Component{
   constructor(props){
     super(props);
     log.info('SVGCanvas.constructor');
+    this.partialData=false;
+    this.showAxis=true;
+    this.state={mx:-1,my:-1,dataL:0,dataR:20};
+    this.isMouseDown=false;
+    this.mouseDragOffset={x:0,y:0};
+    this.isMouseOnCanvas=false;
   }
+  setData(idata)
+  {
+    this.setState({data:idata});
+  }
+  setDataRange(l,r){
+    console.log('setDataRange')
+    this.setState({dataL:l,dataR,r}); 
+  }
+  onMouseDown(){
+    console.log('SVGCanvas event mouse down');
+    if(this.props.container){
+      var loc=d3.mouse(document.getElementById(this.props.container));
+      this.setState({mx:loc[0],my:loc[1]});
+    }
+    if(!this.isMouseDown){
+        this.isMouseDown=true;
+        this.posMouseDown={x:this.state.mx,y:this.state.my};
+        this.mouseDragOffset={x:0,y:0};
+      }
+  }
+  onMouseUp(){
+    console.log('SVGCanvas event mouse up');
+    if(this.props.container){
+      var loc=d3.mouse(document.getElementById(this.props.container));
+      this.posMouseUp={x:loc[0],y:loc[1]};
+      this.setState({mx:loc[0],my:loc[1]});
+    }
+    this.isMouseDown=false;
+    this.mouseDragOffset={x:0,y:0};
+  }
+  onMouseMove(){
+    console.log('SVGCanvas event mouse move');
+    if(this.props.container){
+      var loc=d3.mouse(document.getElementById(this.props.container));
+      this.setState({mx:loc[0],my:loc[1]});
+    }
+    if(this.isMouseDown){
+      var offsetX=this.state.mx-this.posMouseDown.x;
+      var offsetY=this.state.my-this.posMouseDown.y;
+      this.mouseDragOffset={x:offsetX,y:offsetY};
+    }
+  }
+  onMouseOver(){
+  }
+  onMouseOut(){
+  }
+  onMouseScroll(){
+    var dy=d3.event.wheelDeltaY;
+    this.scroll(dy);
+  }
+  scroll(num){}
+  setMousePos(){
+    this.setState({});
+  }
+  //@SVGCanvas.willComponentRecieveProps
+
   //@SVGCanvas.componentDidMount
   componentDidMount(){
-    log.info('SVGCanvas.componentDidMount');
+    
+    //log.info('SVGCanvas.componentDidMount container=',this.props.container);
+    this.setState({dataL:100,dataR:150});
+    
+    var ele=document.getElementById(this.props.container);
+    //ele.addEventListener('DOMMouseScroll',this.onMouseScroll);
+
+    d3.select(ele)
+      .on('mousemove',this.onMouseMove.bind(this))
+      .on('mousedown',this.onMouseDown.bind(this))
+      .on('mouseup',this.onMouseUp.bind(this))
+      .on('mousewheel',this.onMouseScroll.bind(this))
+      .on('mouseout',this.onMouseOut.bind(this))
+      .on('mouseover',this.onMouseOver.bind(this));
+
+
     //the drawing list, will be added to automatically fro msvgComponents
     this.comps=[];
     this.dataComps=[];
     this.state={dl:0,dr:100};
-    if(this.props.width) this.width=this.props.width; else this.width=700;
-    this.height=this.width*0.4;
     this.scaleYMax=function(d){return d.h};
     this.scaleYMin=function(d){return d.l};
     this.margin={left:20,right:20,top:20,bottom:20};
-
     log.info('SVGCanvas size=',this.width,",",this.height);
-    
-    //add things you want to draw
-    this.gCandle=new VCandle(this);
-    this.gCandle.setAutoScale(true).setAutoData(true);
 
-    //this.gMain=this.addPoly(this).setShowData(true).setAutoScale(true);
+      
+    
+  }
+
+  addCandle(){
+    var c=new VCandle(this);
+    c.setAutoScale(true);
+    return c; }
+  addPanel(){return new VPanel(this);}
+  addPoly(){return new VPoly(this);}
+  addTag(){return new VTag(this);}
+  addMA(num){
     var thisCanvas=this;
-    var extract5=function(d){
-      var data=thisCanvas.getPartialData(function(d){return parseFloat(d.o);})
-      log.info('MA5 1st extracted data[20]=',data[0]);
-      data=VLib.getMA(data,5);
-      log.info('MA5 2nd extracted data[20]=',data[0]);
+    var extract=function(idata){
+      var data=[];
+      for (var i=0;i<idata.length;i++){
+        var d=idata[i];
+        data.push(d.o);
+      }
+      //console.log('data[0]=',data[0]);
+      data=VLib.getMA(data,num);
       var jdata=VLib.convertLinearToJSON(data);
       log.info('MA5 3nd  postprocess extracted jdata[20]=',jdata[0]);
       return jdata;
     };
-    var extract12=function(d){
-      var data=thisCanvas.getPartialData(function(d){return parseFloat(d.o);})
-      data=VLib.getMA(data,12);
-      return VLib.convertLinearToJSON(data);
-    };
-    this.gMA5=this.addPoly(this).setShowData(false).setAutoScale(true).setColor('green').setAutoData(extract5);
-    this.gMA12=this.addPoly(this).setShowData(false).setAutoScale(true).setColor('purple').setAutoData(extract12);
-
-
-    //add a demo multi-line tag
-    var tag=new VTag(this);
-    tag.addLine("this is a demo");
-    tag.addLine("of the multi-line");
-    tag.addLine("text tag");
-    tag.setPos(550,260);
-   
-
-   //add buttons to pan and zoom data
-    var thisCanvas=this;
-    var callback1=function(){thisCanvs.moveStep(-1);};
-    var callback2=function(){thisCanvas.moveStep(1);};
-    var callback3=function(){thisCanvas.zoomStep(1);};
-    var callback4=function(){thisCanvas.zoomStep(-1);};
-    this.b1=new VButton(this,{onMouseDown:callback1,x:5,y:30,text:'<'});
-    this.b2=new VButton(this,{onMouseDown:callback2,x:30,y:30,text:'>'});
-    this.b3=new VButton(this,{onMouseDown:callback3,x:55,y:30,text:'+'});
-    this.b4=new VButton(this,{onMouseDown:callback4,x:80,y:30,text:'-'});
-
+    return this.addPoly().setShowData(false).setAutoScale(true).setDataExtract(extract);
   }
-  addPanel(h){if(h) return new VPanel(h); return new VPanel(this);}
-  addPoly(h){ if(h) return new VPoly(h); return new VPoly(this);}
-  addTag(h){if(h) return new VTag(h); return new VTag(this);}
   addComponent(c){this.comps.push(c);}
-  addDataComponent(c){this.DataComp.push(c);}
-
+  //addDataComponent(c){this.DataComp.push(c);}
+  setHost(h){this.host=h; return this;}
   //@SVGCanvas.getPartialData
   //get portion of çthe data
   //this is for pan and zoom, do not display all data at once
-  getPartialData(f){
-    var data=this.props.rawData;
-    //log.debugy('this.props.rawData=',this.props.rawData);
-    var idata=[];
-    for( var i=this.state.dl;i<this.state.dr;i++)
-    {
-      //log.debug('data[i].o=',data[i].o)
-      //idata.push(parseFloat(data[i].o));
-      if(!f) idata.push(data[i]);
-      else if(typeof(f)=='function') idata.push(f(data[i]));
-
-    }
-    return idata;
+  getPartialData(data){
+    if(!data) data=this.state.data;
+    var partialData=data.slice(this.state.dataL,this.state.dataR);
+    return partialData;
+    //return data;
   }
-  componentWillRecieveData(){
-    log.info('from component will recieve data');
-    log.info('this.props.rawData=',this.props.rawData);
-  }
-  getWidth(){return Math.max(this.width, 420);}
-  getHeight(){return this.height;}
+  getWidth(){if(this.state.width) return this.state.width;}
+  getHeight(){
+    if(this.state.height) return this.state.height; 
+    else return this.state.width*0.4;}
   getMargin(){return {top:5,right:5,left:5,bottom:5};}
   getScaleX(){
+    console.log('from SVGCanvas.getScaleX()');
     var width=this.getWidth();
     var height=this.getHeight();
     var margin=this.getMargin();
-    var xMin=this.state.dl;
-    var xMax=this.state.dr;
+    var xMin=0;
+    var xMax=this.state.data.length;
+    if(this.partialData){
+      xMin=this.state.dataL;
+      xMax=this.state.dataR;
+    }
+    console.log('dataL=',this.state.dataL,' dataR=',this.state.dataR,' data length=',this.state.data.length);
     var scaleX=d3.scale.linear().domain([0, xMax-xMin]).range([this.margin.left, width- this.margin.right ]);
+    console.log('scaleX from SVGCanvas.getScaleX() =',scaleX);
     return scaleX;
   }
   getScaleY(){
-    var idata=this.getPartialData();
+    var idata=this.getData();
     var width=this.getWidth();
     var height=this.getHeight();
     var margin=this.getMargin();
@@ -536,49 +635,38 @@ export default class SVGCanvas extends Component{
     var scaleY=d3.scale.linear().domain([yMin, yMax]).range([height-this.margin.bottom,this.margin.top]);
     return scaleY;
   }
-  getData(){return this.props.rawData;}
-  //@SVGCanvas.render()
-  render(){
-
-    log.info('-------from SVGCanvas.render()-------');
-    //log.debug('this.comps=',this.comps);
-    var width=this.getWidth();
-    var data=this.props.rawData;
-    var height=this.getHeight();
-    var margin=this.getMargin();
-
-    // render nothing if the width of the containing div is unknown
-    //or if the data is unknwon
-    if (!width || !data) return (<div></div>);
-
-    //add svg canvas
-    var node = ReactFauxDOM.createElement('div')
-    d3.select(node).style('width',width).style('height',height);
-    var svg=d3.select(node).append('svg')
-        .attr('width',width+margin.left+margin.right)
-        .attr('height',height+margin.top+margin.bottom)
-        .classed(styles.svg,true);
-
-    /*
-    /////////////////////
-    //prepare data
-    /////////////////////
-    //log.debug('partial data=',this.getPartialData());
-    var pd=this.getPartialData(function(d){return parseFloat(d.o);});
-    //log.debug('@ canvas.draw pd=',pd);
-    var jpd=VLib.convertLinearToJSON(pd);
-    //this.gMain.setData(jpd);
-    var pdMA5=VLib.convertLinearToJSON(VLib.getMA(pd,5));
-    var pdMA12=VLib.convertLinearToJSON(VLib.getMA(pd,12));
-    log.debug('jpd.length=',jpd.length);
-    log.debug('pdMA5.length=',pdMA5.length);
-    log.debug('jpd[0]=',jpd[0]);
-    log.debug('pdMA5[0]=',pdMA5[0]);
-    this.gMA5.setData(pdMA5);
-    this.gMA12.setData(pdMA12);*/
-    //this.gCandle.setData(this.getPartialData());
+  getData(){
+    if(this.partialData)
+      return this.getPartialData();
+    return this.state.data;
+  }
+  ////////////////////////     !   ////////////////////////////
+  //this is not done, it's not called by any, will fix later
+  ////////////////////////     !   ////////////////////////////
+  drawD3(){
+    console.log('draw D3 data=',this.state.data,'width=',this.state.width,'thisDOMNode=',ReactDom.findDOMNode(this));
+    if(!this.state.data) return;
+    if(!this.state.width) return;
+    var thisDOMNode=ReactDom.findDOMNode(this);
     
 
+    var svg=d3.select(thisDOMNode).append('svg')
+                      .attr('width',this.getWidth())
+                      .attr('height',this.getHeight());
+
+    console.log('svg=',svg);
+    /*
+    svg
+      .on('mousemove',this.onMouseMove.bind(this))
+      .on('mousedown',this.onMouseDown.bind(this))
+      .on('mouseup',this.onMouseUp.bind(this))
+      .on('mousewheel',this.onMouseScroll.bind(this))
+      .on('mouseout',this.onMouseOut.bind(this))
+      .on('mouseover',this.onMouseOver.bind(this));
+      */
+    console.log('drawD3 data=',this.state.data);
+    //draw graphics on this canvas
+    this.draw(svg);
 
     //draw each components
     if(this.comps) 
@@ -590,45 +678,200 @@ export default class SVGCanvas extends Component{
 
 
     //draw axies
-    var xAxis=d3.svg.axis().scale(this.getScaleX()).orient('bottom');
-    var yAxis=d3.svg.axis().scale(this.getScaleY()).orient('left');
+    if(this.showAxis)
+    {
+      var xAxis=d3.svg.axis().scale(this.getScaleX()).orient('bottom');
+      var yAxis=d3.svg.axis().scale(this.getScaleY()).orient('left');
 
-    var gAxisX=svg.append('g')
-      .attr('class','axis')
-      .attr('transform','translate(0, '+(this.getHeight()-this.margin.bottom)+')')
-      .call(xAxis);
-    gAxisX.classed(styles.axis,true);
-    var gAxisY=svg.append('g')
-      .attr('class','axis')
-      .attr('transform','translate('+this.margin.left+',0)')
-      .call(yAxis);
-    gAxisY.classed(styles.axis,true);
+      var gAxisX=svg.append('g')
+        .attr('class','axis')
+        .attr('transform','translate(0, '+(this.getHeight()-this.margin.bottom)+')')
+        .call(xAxis);
+      gAxisX.classed(styles.axis,true);
+      var gAxisY=svg.append('g')
+        .attr('class','axis')
+        .attr('transform','translate('+this.margin.left+',0)')
+        .call(yAxis);
+      gAxisY.classed(styles.axis,true);
+    } 
+  }
 
-    return node.toReact();
+  //@SVGCanvas.draw()
+  draw(svg){
+    console.log('isMouseOnCanvas=',this.isMouseOnCanvas);
+    if(this.isMouseOnCanvas)
+    {
+      svg.append('line')
+        .attr('x1',this.state.mx)
+        .attr('y1',0)
+        .attr('x2',this.state.mx)
+        .attr('y2',this.getHeight())
+        .attr('stroke','red')
+        .attr('stroke-width',0.5);
+
+      svg.append('line')
+        .attr('x1',0)
+        .attr('y1',this.state.my)
+        .attr('x2',this.getWidth())
+        .attr('y2',this.state.my)
+        .attr('stroke','red')
+        .attr('stroke-width',0.5);
+    }
+      
+  }
+  //@SVGCanvas.render()
+  render(){
+   
+    
+    log.info('-------from SVGCanvas.render()-------');
+    //log.debug('this.comps=',this.comps);
+    var width=this.getWidth();
+    var data=this.state.data;
+
+    // render nothing if the width of the containing div is unknown
+    //or if the data is unknwon
+    if (!width || !data) {
+      if(!width) log.info("!!!!!!width is not ready!!!!!");
+      if(!data) log.info("!!!!!data is not ready!!!!");
+      return (<div>data not ready </div>);
+    }
+
+    var height=this.getHeight();
+    var margin=this.getMargin();
+
+    //add svg canvas
+    this.element= ReactFauxDOM.createElement('div',{id:'CanvasContainer'});
+    var container=d3.select(this.element).style('width',width).style('height',height);
+    var svg=container.append('svg')
+        .attr('width',width+margin.left+margin.right)
+        .attr('height',height+margin.top+margin.bottom)
+        .on('mousemove',function(){
+              //console.log('mouse moving,this =',this);
+        })
+        .classed(styles.svg,true);
+
+    
+    //draw graphics on this canvas
+    this.draw(svg);
+
+    //draw each components
+    if(this.comps) 
+      if(this.comps.length>0){
+        for(var i=0;i<this.comps.length;i++)
+          this.comps[i].draw(svg);
+      }
+    //this.plotLinear(idata,graphics,width,height,scaleX,scaleY);
+
+
+    //draw axies
+    if(this.showAxis)
+    {
+      var xAxis=d3.svg.axis().scale(this.getScaleX()).orient('bottom');
+      var yAxis=d3.svg.axis().scale(this.getScaleY()).orient('left');
+
+      var gAxisX=svg.append('g')
+        .attr('class','axis')
+        .attr('transform','translate(0, '+(this.getHeight()-this.margin.bottom)+')')
+        .call(xAxis);
+      gAxisX.classed(styles.axis,true);
+      var gAxisY=svg.append('g')
+        .attr('class','axis')
+        .attr('transform','translate('+this.margin.left+',0)')
+        .call(yAxis);
+      gAxisY.classed(styles.axis,true);
+    }
+    
+    return this.element.toReact();
+    
+  }
+
+}
+export class VDisplay extends SVGCanvas{
+  constructor(props){
+    console.log('VDisplay constructor');
+    super(props);
+    if(props.scroller)this.scroller=props.scroller;
+  }
+  setScroller(scroller)
+  {
+    this.scroller=scroller;
+    this.scroller.setState({dataL:this.state.dataL, dataR:this.state.dataR});
 
   }
-  //@SVGCanvas.moveStep
-  moveStep(step){
-    if(this.props.rawData)
-    {
-      var length=this.props.rawData.length;
-      if(this.state.dl+step>0 & this.state.dr+step<length)
-        this.setState({dl:this.state.dl+step,dr:this.state.dr+step});
-      log.info('moved to the edge');
+  onMouseDown(){
+    super.onMouseDown();
+    if(this.mouseDragOffset.x==0 & this.mouseDragOffset.y==0){
+      this.oDataL=this.state.dataL;
+      this.oDataR=this.state.dataR;
     }
-  }//end moveStep
-
-  //zoom in and out of the data
-  //@SVGCanvas.zoomStep
-  zoomStep(step){
-    if(this.props.rawData)
+  }
+  onMouseMove(){
+    super.onMouseMove();
+    //console.log('VDisplay event mouseDragOffset=',this.mouseDragOffset);
+    if(this.mouseDragOffset.x!=0){
+      var offsetX=this.mouseDragOffset.x;
+      var unitWidth=this.state.width/(this.state.dataR-this.state.dataL);
+      var unitOffset=Math.round(offsetX/unitWidth);
+      console.log('unitWidth=',unitWidth,'VDisplay unioffset=',unitOffset,' dataL=',this.state.dataL,' data.length=',this.state.data.length);
+      if(this.oDataL-unitOffset>=0 & this.oDataR-unitOffset<=this.state.data.length){
+        this.setState({dataL:this.oDataL-unitOffset,dataR:this.oDataR-unitOffset});
+        if(this.scroller)this.scroller.setState({dataL:this.oDataL-unitOffset,dataR:this.oDataR-unitOffset});
+      }//end if this.dataL
+    }//end if this.mouseDragOffset
+  }
+  scroll(num){
+    //my mouse scrolls about 100 px minimum, this factor varies from mouse to mouse
+    var factor=50;
+    var step=Math.round(num/factor);
+    var min=15;
+    var ol=this.state.dataL;
+    var or=this.state.dataR;
+    var nl=ol;
+    var nr=or;
+    if(step>0)//scroll up
     {
-      var length=this.props.rawData.length;
-      if(this.state.dl+step>0 & this.state.dr+step<length)
-        this.setState({dl:this.state.dl+step,dr:this.state.dr-step});
-      log.info('moved to the edge');
-    }//end if
-  }//end zoomStep
+      if(or-ol+step >=min) nl=ol+step;
+      if(or-step-ol >=min) nr=or-step;
+    }
+    else if(step<0)//scroll down
+    {
+      if(ol+step >=0) nl=ol+step;
+      if(or-step<this.state.data.length) nr=or-step;
+    }
+    this.setState({dataL:nl,dataR:nr});
+    if(this.scroller)this.scroller.setState({dataL:nl,dataR:nr});
+  }
 
+}
 
+export class VScroller extends SVGCanvas{
+  constructor(props){
+    super(props);
+    this.showAxis=false;
+    this.partialData=false;
+    this.setRangeHandlers=[];
+    this.dataL=100;
+    if(props.display)this.display=props.display;
+  }
+    
+  componentDidMount(){
+    super.componentDidMount();
+    var rec=new VRect(this,{x:100,y:100,w:100,h:100});
+  }
+  draw(svg)
+  {
+    
+    console.log('VScroller.draw dataL,dataR',this.state.dataL,',',this.state.dataR);
+    var scaleX=this.getScaleX();
+    var barL=scaleX(this.state.dataL);
+    var barR=scaleX(this.state.dataR);
+    console.log('VScroller.draw barL,barR=',barL,',',barR);
+    svg.append('rect')
+        .attr('x',barL)
+        .attr('y',0)
+        .attr('width',barR-barL)
+        .attr('height',this.getHeight())
+        .attr('fill','lightblue');
+    super.draw(svg);
+  }
 }

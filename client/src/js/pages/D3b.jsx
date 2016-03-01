@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import ReactFauxDOM from 'react-faux-dom';
 import ReactDom from 'react-dom';
 //import d3 from 'd3';
-import SVGCanvas,{VScroller,VDisplay} from '../components/IDP_Charts';
+//import SVGCanvas,{VScroller,VDisplay} from '../components/IDP_Charts';
+import SVGCanvas, {VPoly} from '../components/ReactD3Tester';
 import SecInterp from '../components/SecInterp';
 import VLib from '../components/VLib.js';
 //import styles from './D3.css';
@@ -17,26 +18,18 @@ var log = logger('D3');
 
 
 
-export default class D3 extends Component {
+export default class D3b extends Component {
   constructor(props) {
     super(props);
     log.info("from d3.constructor");
     this.gotDataHandlers=[];
     this.resizeHandlers=[];
     this.handleResize = this.handleResize.bind(this);
-    this.dataL=100;
-    this.dataR=200;
   }
   componentDidMount() {
-    // Tell the D3 bar chart the size of the containing element, thus making 
-    // the chart "responsive". This has to be done in componentDidMount() 
-    // because the size of the div is unknown before mounting.
     
-    log.info("from d3.componentDidMount");
-    // do the same on window resize
     window.addEventListener('resize', this.handleResize);
-    this.domHolders=[<div></div>];
-    
+  
     this.draw();
     this.setSize();
 
@@ -45,53 +38,95 @@ export default class D3 extends Component {
     this.readData(url);
   }
 
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+
   //@d3.draw()
   //this is a one time initialization called by component did mount
   draw(){
     
     //add customized drawing objects
     var ele=document.getElementById('SVGContainer1');
-    var thisCanvas1=ReactDom.render(<VDisplay container='SVGContainer1'/>,ele);
-
-    //create a data diaply which shows partial data
-    thisCanvas1.addCandle();
-    //thisCanvas1.addMA(5).setColor('green');
-    //thisCanvas1.addMA(12);
-    var ma5=thisCanvas1.addPoly();
-    ma5.setAutoScale(true);
-    //ma5.setData([{x:0,y:0},{x:100,y:100}]);
+    var thisCanvas1=ReactDom.render(<SVGCanvas />,ele);
     
-    thisCanvas1.partialData=true;
-    this.resizeHandlers.push(function(w){thisCanvas1.setState({width:w});});
+
+
+    //handle recieved data
     this.gotDataHandlers.push(function(d){
-        //handle got data, asign data to required individuals
-        thisCanvas1.setData(d);
-        ma5.setData(VLib.getMA(d,5));
-      });
+      thisCanvas1.setData(d);
+      
+      //draw  polylines of moving averages
+      var ma1=VLib.getMA(d,0);
+      var ma5=VLib.getMA(d,5);
+      var ma12=VLib.getMA(d,12);
 
-    
-    //create scroller which shows complete data
-    var thisScroller=ReactDom.render(<VScroller container='srcollerContainer'/>,document.getElementById('srcollerContainer'));
-    thisScroller.setState({height:50});
-    //thisScroller.addMA(0);
-    thisScroller.margin.bottom=5;
-    this.resizeHandlers.push(function(w){thisScroller.setState({width:w});});
-    this.gotDataHandlers.push(function(d){thisScroller.setData(d);});
+      var pma1=new VPoly(thisCanvas1); pma1.setData(ma1).setAutoScale().setShowVertices().d3Update();
+      var pma5=new VPoly(thisCanvas1); pma5.setData(ma5).setAutoScale().setColor('green').d3Update();
+      var pma12=new VPoly(thisCanvas1); pma12.setData(ma12).setAutoScale().setColor('#aa8').d3Update();
 
-    //link up the display and the scroller
-    thisCanvas1.setScroller(thisScroller);
+      //draw point clouds
+      var candleReverse=VLib.getCandleReverse(d);
+      var cr1=new VPoly(thisCanvas1); 
+      cr1.setData(candleReverse).setAutoScale().setShowVertices().setColor('black').d3Update();
+      cr1.parallelData=false;
+      cr1.showLines=false;
+      cr1.r=3;
+      cr1.d3Update();
+
+      var strategy1=VLib.strategy1(ma1,ma5,ma12,
+                                  -0.004,-0.002,0.002, 
+                                  0.006,0.003,0.002,
+                                  0.2
+                                  );
+      var buyDots=strategy1[0];
+      var sellDots=strategy1[1];
+
+      console.log('162070 buyDots.len=',buyDots.length);
+
+      var pBuy=new VPoly(thisCanvas1);
+      pBuy.setAutoScale().setData(buyDots).setShowVertices().setColor('blue');
+      pBuy.r=5;
+      pBuy.parallelData=false;
+      pBuy.showLines=false;
+      pBuy.d3Update();
+
+      var pSell=new VPoly(thisCanvas1);
+      pSell.setAutoScale().setData(sellDots).setShowVertices().setColor('red');
+      pSell.r=5;
+      pSell.parallelData=false;
+      pSell.showLines=false;
+      pSell.d3Update();
+
+
+      var m1=VLib.getCandleReverseFeatures(d,ma5,ma12,5,'top')
+      var m2=VLib.getCandleReverseFeatures(d,ma5,ma12,5,'bot')
+      var display=document.getElementById('strategy data');
+      display.innerHTML=m1+'<br><br>'+m2;
+
+    });
+
+    //handle resize
+    this.resizeHandlers.push(function(){
+      var w=this.refs.container.clientWidth;
+      thisCanvas1.setWidth(w);
+    }.bind(this));
 
   }
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
 
-  handleGotData(data)
-  {
+  handleGotData(data){
     if(this.gotDataHandlers.length>0)
     {
       for (var i=0;i<this.gotDataHandlers.length;i++)
       {
           if(typeof(this.gotDataHandlers[i])=='function')
             this.gotDataHandlers[i](data);
-          else log.info('from d3.hadleGotData, expected a function, got a ',typeof(this.gotDataHandlers[i]));
+          else log.info('from d3.handleGotData, expected a function, got a ',typeof(this.gotDataHandlers[i]));
       }//end for i
     }//end if
     this.setState({});
@@ -113,14 +148,12 @@ export default class D3 extends Component {
       { 
         if(typeof(this.resizeHandlers[i])=='function')
           this.resizeHandlers[i](containerWidth);
-        else log.info('from d3.hadleResize, expected a function, got a ',typeof(this.gotDataHandlers[i]));
+        else log.info('from d3.handleResize, expected a function, got a ',typeof(this.resizeHandlers[i]));
       }//end for i
     }//end if
     this.setState({
       width: containerWidth
     });
-    if(this.canvas1) this.canvas1.setState({width:containerWidth});
-    else log.info('canvas1 not found @d3.setSize()');
   }
   readData(url){
     fetch(url)
@@ -151,11 +184,12 @@ export default class D3 extends Component {
       <div ref="container">
 
         <div className={c('header')}>
-          <h1>D3 test</h1>
+          <h1>D3 test Two</h1>
           <h2>single security viewer</h2>
         </div>
         <button>button1</button>
         <button>button2</button>
+        <p id='message'>...</p>
         <p id='candle data'>open: close: high: low:</p>
         <p id='strategy data'>strategy data</p>
         <div id='SVGContainer1'></div>

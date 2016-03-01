@@ -1,0 +1,80 @@
+CLass: SVGCanvas
+----------------propers--------------
+//mouse functions
+float	SVGCanvas.mx//mouse x
+float	SVGCanvas.my//mouse y
+float	SVGCanvas.mxl//mouse last x
+float	SVGCanvas.myl//mouse last y
+float	SVGCanvas.mxd//change of mouse x
+float	SVGCanvas.myd//change of mouse y
+float	SVGCanvas.mxdown//mouse x when press the mouse
+float	SVGCanvas.mydown//mouse y when press the mouse
+bool	SVGCanvas.isMouseDown
+float 	SVGCanvas.panned=0;//paned distance since mouse down, unit in data unit.
+int		SVGCanvas.dataLDown// the data left bound when press the mouse
+int		SVGCanvas.dataRDown// the data left bound when press the mouse
+
+//data related variables
+[]		SVGCanvas.data//???
+[]		SVGCanvas.rawData//the complete candle data
+int		SVGCanvas.dataL//left bound of the displaying data	
+int		SVGCanvas.dataR	//right bound of the displaying data
+bool 	SVGCanvas.partialData //decides whether the canvas shows complete data or partial data
+
+//display properties
+bool	SVGCanvas.autoWidth//if false you can set absolute width
+bool	SVGCanvas.showAxis//show the labeled data axies
+int		SVGCanvas.width
+int		SVGCanvas.getHeight
+
+//drawing elements and scales
+[] 		SVGCanvas.dq //the drawing queq
+func(d) SVGCanvas.getScaleX//d3 x scale function
+func(d) SVGCanvas.getScaleY//d3 y scale function
+
+//other
+object 	SVGCanvas.host//the parent reactComponent 
+
+---------------function--------------
+//react class functions
+public void SVGCanvas.constructor(props)
+public void	SVGCanvas.componentDidMount()//calls d3Setup()
+public void SVGCanvas.componentWillUpdate()//calls d3Update(), prevent update by React
+public void SVGCanvas.render()//dras a SVG html tag 
+
+//class get set functions
+public this	SVGCanvas.setHost(object h)//so it knows the parent react component
+public this	SVGCanvas.setData([] rawData)
+public this SVGCanvas.setAutoWidth(bool b)
+public void	setScale()//updates this.scaleX and this.scaleY
+public int 	SVGCanvas.getWidth()
+public int 	SVGCanvas.getHeight()
+public {}	SVGCanvas.getMargin()
+public []	SVGCanvas.getPartialData()
+
+//d3 SVG functions
+public void d3Setup()//initialize all grawing groups
+public void d3Update()//draws the d3 graphics 
+public void clearGraphs()//clears the canvas, removes all drawing objects
+
+//UI mechanics
+public this	zoomExtend()
+public void zoomStep(int step)//effects dataL and dataR, calls d3Update()
+public void	pan(int step)//effects dataL and dataR, calls d3Update()
+public void drawMouseTracer()//called by d3Update()
+
+//mouse functions
+public void	SVGCanvas.onMouseMove()
+public void SVGCanvas.onMouseDown()
+public void SVGCanvas.onMouseUp()
+public void	SVGCanvas.onMouseOut()
+public void SVGCanvas.onMouseOver()
+public void SVGCanvas.onMouseScroll()
+
+//user functions
+public  SVGCanvas.addCandle()
+public  SVGCanvas.addPoly()
+public  SVGCanvas.addMA(num)
+private SVGCanvas.addComponent(c)
+
+
