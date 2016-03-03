@@ -4,7 +4,12 @@ import ReactDom from 'react-dom';
 
 //import d3 from 'd3';
 //import SVGCanvas,{VScroller,VDisplay} from '../components/IDP_Charts';
-import SVGCanvas, {VPoly,VPoints,VCandles,VLines} from '../components/ReactD3Tester';
+import SVGCanvas from '../components/SVGCanvas';
+import VPoly from '../components/VPoly';
+import VPoints from '../components/VPoints';
+import VCandles from '../components/VCandles';
+import VLines from '../components/VLines';
+
 import SecInterp from '../components/SecInterp';
 import VLib from '../components/VLib.js';
 

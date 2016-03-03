@@ -45,9 +45,10 @@ export default class SVGCanvas extends Component
 
 		//display properties
 		this.autoWidth=false;
-		this.showAxis=false;
+		this.showAxisX=true;
+		this.showAxisY=true;
 		this.width=300;
-		this.height=300;
+		this.height=200;
 		
 		//drawing elements and scales
 		this.dq=[];//the drawing que
@@ -76,7 +77,7 @@ export default class SVGCanvas extends Component
 	render(){
 		//render the component
 		//return an html element
-		return <svg width={400} height={300} >SVG from SVGComponent</svg>
+		return <svg width={this.width} height={this.height} >SVG from SVGComponent</svg>
 	}
 	
 
@@ -88,12 +89,13 @@ export default class SVGCanvas extends Component
 	setData(d){
 		this.rawData=d;
 		log.debug('162050 setData 2');
-		this.showAxis=true;
 		if(d.length>0 & d.length<this.dataR) this.dataR=d.length-1;
 		this.d3Update()
 		this.clearGraphics()
 		return this;
 	}
+	showAxisX(t){this.showAxisX=t;return this;}
+	showAxisY(t){this.showAxisY=t;return this;}
 	setAutoWidth(b){if(b) this.autoWidth=b; else this.autoWidth=true;}
 	setWidth(w){
 		this.width=w;
@@ -341,10 +343,10 @@ export default class SVGCanvas extends Component
 		
 		    //update graph display tag for each graph
 		    for(var i=0;i<this.dq.length;i++){
-		    	console.log('tagVal search i=',i);
+		    	//console.log('tagVal search i=',i);
 				if(this.dq[i].displayTag){
 					var graph=this.dq[i];
-					console.log('graph is parallel=',graph.parallelData);
+					//console.log('graph is parallel=',graph.parallelData);
 					if(graph.parallelData){
 						var selNode=graph.rawData[adjIndex];
 						var yVal=this.getY(selNode);
